@@ -63,10 +63,6 @@ public class MenuCartao {
             }
         } while (!CPFValidator.validarCPF(cpf));
 
-        System.out.print("Dígito Verificador do CPF: ");
-        int digitoVerificadorCpf = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-
         String numeroDoCartao = GeradorCartao.gerarNumeroCartaoValido(cartoes);
         System.out.println("Número do Cartão Gerado: " + numeroDoCartao);
 
@@ -103,7 +99,7 @@ public class MenuCartao {
         System.out.print("Logradouro: ");
         String logradouro = scanner.nextLine();
 
-        Cartao cartao = new Cartao(nome, dataDeNascimento, rg, orgaoEmissorRg, cpf, digitoVerificadorCpf,
+        Cartao cartao = new Cartao(nome, dataDeNascimento, rg, orgaoEmissorRg, cpf,
                 numeroDoCartao, bandeira, funcaoDoCartao, anosDeValidade, limiteDeCredito,
                 cep, unidadeFederativa, municipio, bairro, logradouro);
         cartoes.add(cartao);

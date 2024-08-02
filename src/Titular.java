@@ -5,16 +5,15 @@ import java.time.format.DateTimeFormatter;
 public class Titular extends Identificacao implements Endereco {
     private String nome;
     private LocalDate dataDeNascimento;
-
     private String cep;
     private String unidadeFederativa;
     private String municipio;
     private String bairro;
     private String logradouro;
 
-    public Titular(String nome, LocalDate dataDeNascimento, int rg, String orgaoEmissorRg, String cpf, int digitoVerificadorCpf,
+    public Titular(String nome, LocalDate dataDeNascimento, int rg, String orgaoEmissorRg, String cpf,
                    String cep, String unidadeFederativa, String municipio, String bairro, String logradouro) {
-        super(rg, orgaoEmissorRg, cpf, digitoVerificadorCpf);
+        super(rg, orgaoEmissorRg, cpf);
         this.nome = nome;
         this.dataDeNascimento = dataDeNascimento;
         this.cep = cep;
