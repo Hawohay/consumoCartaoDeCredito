@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MenuCartao {
+
     private List<Cartao> cartoes;
     private Scanner scanner;
 
@@ -13,15 +14,17 @@ public class MenuCartao {
         scanner = new Scanner(System.in);
     }
 
-    public void exibirMenu() {
+    public void exibirMenuCartao() {
         while (true) {
             System.out.println("Menu de Opções:");
             System.out.println("1. Adicionar Cartão");
             System.out.println("2. Exibir Cartões");
-            System.out.println("3. Sair");
+            System.out.println("3. Voltar ao Menu Principal");
+            System.out.println("9. Sair");
             System.out.print("Escolha uma opção: ");
+
             int escolha = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine(); // Consumir nova linha
 
             switch (escolha) {
                 case 1:
@@ -31,8 +34,11 @@ public class MenuCartao {
                     exibirCartoes();
                     break;
                 case 3:
-                    System.out.println("Saindo...");
+                    System.out.println("Voltando ao Menu Principal...");
                     return;
+                case 9:
+                    System.out.println("Saindo...");
+                    System.exit(0); // Termina o programa
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
@@ -62,10 +68,6 @@ public class MenuCartao {
                 System.out.println("CPF inválido. Tente novamente.");
             }
         } while (!CPFValidator.validarCPF(cpf));
-
-        System.out.print("Dígito Verificador do CPF: ");
-        int digitoVerificadorCpf = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
 
         String numeroDoCartao = GeradorCartao.gerarNumeroCartaoValido(cartoes);
         System.out.println("Número do Cartão Gerado: " + numeroDoCartao);
@@ -103,7 +105,7 @@ public class MenuCartao {
         System.out.print("Logradouro: ");
         String logradouro = scanner.nextLine();
 
-        Cartao cartao = new Cartao(nome, dataDeNascimento, rg, orgaoEmissorRg, cpf, digitoVerificadorCpf,
+        Cartao cartao = new Cartao(nome, dataDeNascimento, rg, orgaoEmissorRg, cpf,
                 numeroDoCartao, bandeira, funcaoDoCartao, anosDeValidade, limiteDeCredito,
                 cep, unidadeFederativa, municipio, bairro, logradouro);
         cartoes.add(cartao);

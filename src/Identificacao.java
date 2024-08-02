@@ -1,15 +1,15 @@
+
 public class Identificacao {
 
     private int rg;
     private String orgaoEmissorRg;
     private String cpf;
-    private int digitoVerificadorCpf;
 
-    public Identificacao(int rg, String orgaoEmissorRg, String cpf, int digitoVerificadorCpf) {
+
+    public Identificacao(int rg, String orgaoEmissorRg, String cpf) {
         this.rg = rg;
         this.orgaoEmissorRg = orgaoEmissorRg;
         this.cpf = cpf;
-        this.digitoVerificadorCpf = digitoVerificadorCpf;
     }
 
     public Identificacao() {
@@ -40,11 +40,5 @@ public class Identificacao {
         this.cpf = cpf;
     }
 
-    public int getDigitoVerificadorCpf() {
-        return digitoVerificadorCpf;
-    }
 
-    public void setDigitoVerificadorCpf(int digitoVerificadorCpf) {
-        this.digitoVerificadorCpf = digitoVerificadorCpf;
-    }
 }

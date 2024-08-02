@@ -3,6 +3,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class Cartao extends Titular {
+
     private String numeroDoCartao;
     private String bandeira;
     private String funcaoDoCartao;
@@ -11,10 +12,10 @@ public class Cartao extends Titular {
     private double limiteDeCredito;
 
     // Construtor
-    public Cartao(String nome, LocalDate dataDeNascimento, int rg, String orgaoEmissorRg, String cpf, int digitoVerificadorCpf,
+    public Cartao(String nome, LocalDate dataDeNascimento, int rg, String orgaoEmissorRg, String cpf,
                   String numeroDoCartao, String bandeira, String funcaoDoCartao, int anosDeValidade, double limiteDeCredito,
                   String cep, String unidadeFederativa, String municipio, String bairro, String logradouro) {
-        super(nome, dataDeNascimento, rg, orgaoEmissorRg, cpf, digitoVerificadorCpf, cep, unidadeFederativa, municipio, bairro, logradouro);
+        super(nome, dataDeNascimento, rg, orgaoEmissorRg, cpf, cep, unidadeFederativa, municipio, bairro, logradouro);
         this.numeroDoCartao = numeroDoCartao;
         this.bandeira = bandeira;
         this.funcaoDoCartao = funcaoDoCartao;
