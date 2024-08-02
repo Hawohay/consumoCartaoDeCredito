@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Menu {
+public class MenuCartao {
     private List<Cartao> cartoes;
     private Scanner scanner;
 
-    public Menu() {
+    public MenuCartao() {
         cartoes = new ArrayList<>();
         scanner = new Scanner(System.in);
     }
