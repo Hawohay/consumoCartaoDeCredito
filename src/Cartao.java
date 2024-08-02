@@ -1,47 +1,90 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 
 public class Cartao extends Titular {
     private String numeroDoCartao;
-    private int digitoVerificador;
     private String bandeira;
     private String funcaoDoCartao;
     private int cvv;
     private LocalDate dataDeValidade;
     private double limiteDeCredito;
 
+    // Construtor
     public Cartao(String nome, LocalDate dataDeNascimento, int rg, String orgaoEmissorRg, String cpf, int digitoVerificadorCpf,
-                  String numeroDoCartao, int digitoVerificador, String bandeira, String funcaoDoCartao, int cvv, int anosDeValidade, double limiteDeCredito,
+                  String numeroDoCartao, String bandeira, String funcaoDoCartao, int anosDeValidade, double limiteDeCredito,
                   String cep, String unidadeFederativa, String municipio, String bairro, String logradouro) {
         super(nome, dataDeNascimento, rg, orgaoEmissorRg, cpf, digitoVerificadorCpf, cep, unidadeFederativa, municipio, bairro, logradouro);
         this.numeroDoCartao = numeroDoCartao;
-        this.digitoVerificador = digitoVerificador;
         this.bandeira = bandeira;
         this.funcaoDoCartao = funcaoDoCartao;
-        this.cvv = cvv;
-        this.dataDeValidade = calculaDataValidade(anosDeValidade);
+        this.cvv = gerarCVV();
+        this.dataDeValidade = LocalDate.now().plusYears(anosDeValidade);
         this.limiteDeCredito = limiteDeCredito;
     }
 
-    private LocalDate calculaDataValidade(int anosDeValidade) {
-        LocalDate currentDate = LocalDate.now();
-        return currentDate.plusYears(anosDeValidade);
+    private int gerarCVV() {
+        Random random = new Random();
+        return 100 + random.nextInt(900); // Gera um número entre 100 e 999
     }
 
-    private String formatarDataValidade() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return dataDeValidade.format(formatter);
-    }
-
-    @Override
     public void exibirInfo() {
         super.exibirInfo();
         System.out.println("Número do Cartão: " + numeroDoCartao);
-        System.out.println("Dígito Verificador: " + digitoVerificador);
         System.out.println("Bandeira: " + bandeira);
         System.out.println("Função do Cartão: " + funcaoDoCartao);
         System.out.println("CVV: " + cvv);
-        System.out.println("Data de Validade: " + formatarDataValidade());
+        System.out.println("Data de Validade: " + dataDeValidade.format(DateTimeFormatter.ofPattern("MM/yy")));
         System.out.println("Limite de Crédito: " + limiteDeCredito);
+        System.out.println("Endereço: " + getLogradouro() + ", " + getBairro() + ", " + getMunicipio() + " - " + getUnidadeFederativa() + ", CEP: " + getCep());
+    }
+
+    // Getters e Setters
+    public String getNumeroDoCartao() {
+        return numeroDoCartao;
+    }
+
+    public void setNumeroDoCartao(String numeroDoCartao) {
+        this.numeroDoCartao = numeroDoCartao;
+    }
+
+    public String getBandeira() {
+        return bandeira;
+    }
+
+    public void setBandeira(String bandeira) {
+        this.bandeira = bandeira;
+    }
+
+    public String getFuncaoDoCartao() {
+        return funcaoDoCartao;
+    }
+
+    public void setFuncaoDoCartao(String funcaoDoCartao) {
+        this.funcaoDoCartao = funcaoDoCartao;
+    }
+
+    public int getCvv() {
+        return cvv;
+    }
+
+    public void setCvv(int cvv) {
+        this.cvv = cvv;
+    }
+
+    public LocalDate getDataDeValidade() {
+        return dataDeValidade;
+    }
+
+    public void setDataDeValidade(LocalDate dataDeValidade) {
+        this.dataDeValidade = dataDeValidade;
+    }
+
+    public double getLimiteDeCredito() {
+        return limiteDeCredito;
+    }
+
+    public void setLimiteDeCredito(double limiteDeCredito) {
+        this.limiteDeCredito = limiteDeCredito;
     }
 }
