@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Random;
 
 public class GeradorCartao {
     public static String gerarNumeroCartaoValido(List<Cartao> cartoesExistentes) {
@@ -15,9 +16,31 @@ public class GeradorCartao {
         return numeroCartao;
     }
 
+    public static int gerarCVV(List<Cartao> cartoesExistentes) {
+        Random random = new Random();
+        int cvv;
+        boolean unico;
+
+        do {
+            cvv = 100 + random.nextInt(900); // Gera um número entre 100 e 999
+            unico = verificarUnicidadeCVV(cvv, cartoesExistentes);
+        } while (!unico);
+
+        return cvv;
+    }
+
     private static boolean verificarUnicidade(String numeroCartao, List<Cartao> cartoesExistentes) {
         for (Cartao cartao : cartoesExistentes) {
             if (cartao.getNumeroDoCartao().equals(numeroCartao)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean verificarUnicidadeCVV(int cvv, List<Cartao> cartoesExistentes) {
+        for (Cartao cartao : cartoesExistentes) {
+            if (cartao.getCvv() == cvv) {
                 return false;
             }
         }

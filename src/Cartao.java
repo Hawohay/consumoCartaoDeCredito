@@ -1,6 +1,6 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Random;
+import java.util.List;
 
 public class Cartao extends Titular {
 
@@ -13,20 +13,16 @@ public class Cartao extends Titular {
 
     // Construtor
     public Cartao(String nome, LocalDate dataDeNascimento, int rg, String orgaoEmissorRg, String cpf,
-                  String numeroDoCartao, String bandeira, String funcaoDoCartao, int anosDeValidade, double limiteDeCredito,
-                  String cep, String unidadeFederativa, String municipio, String bairro, String logradouro) {
+                  String bandeira, String funcaoDoCartao, int anosDeValidade, double limiteDeCredito,
+                  String cep, String unidadeFederativa, String municipio, String bairro, String logradouro,
+                  List<Cartao> cartoesExistentes) {
         super(nome, dataDeNascimento, rg, orgaoEmissorRg, cpf, cep, unidadeFederativa, municipio, bairro, logradouro);
-        this.numeroDoCartao = numeroDoCartao;
+        this.numeroDoCartao = GeradorCartao.gerarNumeroCartaoValido(cartoesExistentes);
         this.bandeira = bandeira;
         this.funcaoDoCartao = funcaoDoCartao;
-        this.cvv = gerarCVV();
+        this.cvv = GeradorCartao.gerarCVV(cartoesExistentes);
         this.dataDeValidade = LocalDate.now().plusYears(anosDeValidade);
         this.limiteDeCredito = limiteDeCredito;
-    }
-
-    private int gerarCVV() {
-        Random random = new Random();
-        return 100 + random.nextInt(900); // Gera um número entre 100 e 999
     }
 
     public void exibirInfo() {

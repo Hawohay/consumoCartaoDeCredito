@@ -1,5 +1,3 @@
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -46,31 +44,26 @@ public class MenuCartao {
     }
 
     private void adicionarCartao() {
-        System.out.print("Nome: ");
-        String nome = scanner.nextLine();
+        // Cadastro do cliente usando a classe Titular
+        Titular titular = new Titular();
+        titular.cadastrarCliente();
 
-        System.out.print("Data de Nascimento (dd/MM/yyyy): ");
-        String dataDeNascimentoStr = scanner.nextLine();
-        LocalDate dataDeNascimento = LocalDate.parse(dataDeNascimentoStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        // A partir do cliente cadastrado, criar um cartão
+        System.out.print("Digite o CPF do cliente para associar o cartão: ");
+        String cpf = scanner.nextLine();
 
-        System.out.print("RG: ");
-        int rg = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        Titular cliente = Titular.encontrarClientePorCpf(cpf);
 
-        System.out.print("Órgão Emissor do RG: ");
-        String orgaoEmissorRg = scanner.nextLine();
+        if (cliente == null) {
+            System.out.println("Cliente não encontrado. Primeiro cadastre um cliente.");
+            return;
+        }
 
-        String cpf;
-        do {
-            System.out.print("CPF: ");
-            cpf = scanner.nextLine();
-            if (!CPFValidator.validarCPF(cpf)) {
-                System.out.println("CPF inválido. Tente novamente.");
-            }
-        } while (!CPFValidator.validarCPF(cpf));
-
+        // Dados do cartão
         String numeroDoCartao = GeradorCartao.gerarNumeroCartaoValido(cartoes);
+        int cvv = GeradorCartao.gerarCVV(cartoes);
         System.out.println("Número do Cartão Gerado: " + numeroDoCartao);
+        System.out.println("Número do CVV: " + cvv);
 
         System.out.print("Bandeira: ");
         String bandeira = scanner.nextLine();
@@ -78,36 +71,20 @@ public class MenuCartao {
         System.out.print("Função do Cartão: ");
         String funcaoDoCartao = scanner.nextLine();
 
-        System.out.print("CVV: ");
-        int cvv = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-
         System.out.print("Anos de Validade: ");
         int anosDeValidade = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine(); // Consumir nova linha
 
         System.out.print("Limite de Crédito: ");
         double limiteDeCredito = scanner.nextDouble();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine(); // Consumir nova linha
 
-        System.out.print("CEP: ");
-        String cep = scanner.nextLine();
+        // Criar o cartão com a lista de cartões existentes
+        Cartao cartao = new Cartao(cliente.getNome(), cliente.getDataDeNascimento(), cliente.getRg(),
+                cliente.getOrgaoEmissorRg(), cliente.getCpf(), bandeira, funcaoDoCartao, anosDeValidade,
+                limiteDeCredito, cliente.getCep(), cliente.getUnidadeFederativa(), cliente.getMunicipio(),
+                cliente.getBairro(), cliente.getLogradouro(), cartoes);
 
-        System.out.print("Unidade Federativa: ");
-        String unidadeFederativa = scanner.nextLine();
-
-        System.out.print("Município: ");
-        String municipio = scanner.nextLine();
-
-        System.out.print("Bairro: ");
-        String bairro = scanner.nextLine();
-
-        System.out.print("Logradouro: ");
-        String logradouro = scanner.nextLine();
-
-        Cartao cartao = new Cartao(nome, dataDeNascimento, rg, orgaoEmissorRg, cpf,
-                numeroDoCartao, bandeira, funcaoDoCartao, anosDeValidade, limiteDeCredito,
-                cep, unidadeFederativa, municipio, bairro, logradouro);
         cartoes.add(cartao);
         System.out.println("Cartão adicionado com sucesso!");
     }
