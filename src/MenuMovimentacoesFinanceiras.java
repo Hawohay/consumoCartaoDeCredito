@@ -1,30 +1,34 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class MenuMovimentacoesFinanceiras {
+    private List<Conta> listaDeContas;
+    private Agencia agencia; // Adicionar a variável de instância para Agencia
+
+    public MenuMovimentacoesFinanceiras(Agencia agencia) {
+        this.listaDeContas = agencia.getContas(); // Inicializa a lista de contas com a lista da agência
+        this.agencia = agencia; // Inicializa a agência
+    }
 
     public void exibirMenuMovimentacoesFinanceiras() {
-
         Scanner scanner = new Scanner(System.in);
 
-        Deposito novoDeposito = new Deposito();
-        TransferenciaEntreContas novaTransferencia = new TransferenciaEntreContas();
-        Saque novoSaque = new Saque();
-        Saldo exibeSaldo = new Saldo();
-
-
+        Deposito novoDeposito = new Deposito(listaDeContas, agencia);
+        TransferenciaEntreContas novaTransferencia = new TransferenciaEntreContas(listaDeContas, agencia);
+        Saque novoSaque = new Saque(listaDeContas, agencia);
+        Saldo exibeSaldo = new Saldo(listaDeContas, agencia);
 
         while (true) {
             System.out.println("Menu de Opções:");
-            System.out.println("1. Deposito");
+            System.out.println("1. Depósito");
             System.out.println("2. Transferência");
             System.out.println("3. Saque");
             System.out.println("4. Saldo");
-            System.out.println("7. retornar");
+            System.out.println("7. Retornar");
             System.out.println("9. Sair...");
             System.out.print("Escolha uma opção: ");
 
             int escolha = scanner.nextInt();
-
             scanner.nextLine(); // Consumir nova linha
 
             switch (escolha) {
@@ -50,6 +54,4 @@ public class MenuMovimentacoesFinanceiras {
             }
         }
     }
-
 }
-

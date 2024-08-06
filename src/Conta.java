@@ -16,7 +16,7 @@ public abstract class Conta {
     }
 
     public double getSaldo() {
-        return saldo;
+        return 0;
     }
 
     public Titular getTitular() {

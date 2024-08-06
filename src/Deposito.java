@@ -1,70 +1,76 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Deposito {
+    private List<Conta> listaDeContas;
     private Agencia agencia;
-    private Scanner scanner;
+    private Scanner scanner = new Scanner(System.in);
 
-    public Deposito() {
+    public Deposito(List<Conta> listaDeContas, Agencia agencia) {
+        this.listaDeContas = listaDeContas;
         this.agencia = agencia;
-        this.scanner = new Scanner(System.in);
     }
 
     public void realizarDeposito() {
-        System.out.println("------------------");
-        System.out.println("1 - Conta Corrente");
-        System.out.println("2 - Poupança");
-        System.out.println("3 - Retornar para o menu anterior");
-        System.out.println("9 - Sair...");
-        System.out.println("-------------------");
-        System.out.println("Informe uma opção");
+        while (true) {
+            System.out.println("------------------");
+            System.out.println("1 - Conta Corrente");
+            System.out.println("2 - Poupança");
+            System.out.println("3 - Retornar para o menu anterior");
+            System.out.println("9 - Sair...");
+            System.out.println("-------------------");
+            System.out.print("Informe uma opção: ");
 
-        int opcaoDeposito = scanner.nextInt();
-
-        while (true)
+            int opcaoDeposito = scanner.nextInt();
+            scanner.nextLine(); // Limpar o buffer do scanner
 
             switch (opcaoDeposito) {
                 case 1:
-
-                    System.out.println("Digite o número da conta do cliente que deseja realizar o depósito:");
-
+                    System.out.print("Digite o número da conta corrente do cliente que deseja realizar o depósito: ");
                     String numeroContaCorrenteParaDeposito = scanner.nextLine();
 
-                    ContaCorrente contaParaDeposito = (ContaCorrente) agencia.buscarConta(numeroContaCorrenteParaDeposito);
+                    Conta contaCorrenteParaDeposito = agencia.buscarConta(numeroContaCorrenteParaDeposito);
 
-                    if (contaParaDeposito != null) {
-                        System.out.println("Digite o valor do depósito:");
+                    if (contaCorrenteParaDeposito instanceof ContaCorrente) {
+                        System.out.print("Digite o valor do depósito: ");
                         double valorAdicionar = scanner.nextDouble();
                         scanner.nextLine(); // Limpar o buffer do scanner
 
-                        contaParaDeposito.depositar(valorAdicionar);
+                        contaCorrenteParaDeposito.depositar(valorAdicionar);
+                        System.out.println("Depósito realizado com sucesso.");
                     } else {
-                        System.out.println("Conta com número " + numeroContaCorrenteParaDeposito + " não encontrada.");
+                        System.out.println("Conta com número " + numeroContaCorrenteParaDeposito + " não encontrada ou não é uma conta corrente.");
                     }
                     break;
 
                 case 2:
-
-                    System.out.println("Digite o número da conta do cliente que deseja realizar o depósito:");
-
+                    System.out.print("Digite o número da conta poupança do cliente que deseja realizar o depósito: ");
                     String numeroContaPoupancaParaDeposito = scanner.nextLine();
 
-                    ContaPoupanca contaPoupancaParaDeposito = (ContaPoupanca) agencia.buscarConta(numeroContaPoupancaParaDeposito);
+                    Conta contaPoupancaParaDeposito = agencia.buscarConta(numeroContaPoupancaParaDeposito);
 
-                    if (contaPoupancaParaDeposito != null) {
-                        System.out.println("Digite o valor do depósito:");
+                    if (contaPoupancaParaDeposito instanceof ContaPoupanca) {
+                        System.out.print("Digite o valor do depósito: ");
                         double valorAdicionar = scanner.nextDouble();
                         scanner.nextLine(); // Limpar o buffer do scanner
 
                         contaPoupancaParaDeposito.depositar(valorAdicionar);
+                        System.out.println("Depósito realizado com sucesso.");
                     } else {
-                        System.out.println("Conta com número " + numeroContaPoupancaParaDeposito + " não encontrada.");
+                        System.out.println("Conta com número " + numeroContaPoupancaParaDeposito + " não encontrada ou não é uma conta poupança.");
                     }
                     break;
 
                 case 3:
-                    return;
+                    return; // Retorna ao menu anterior
+
                 case 9:
-                    break;
+                    System.out.println("Saindo...");
+                    System.exit(0); // Termina o programa
+
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
             }
+        }
     }
 }

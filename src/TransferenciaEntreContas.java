@@ -4,10 +4,11 @@ import java.util.Scanner;
 public class TransferenciaEntreContas {
 
     private List<Conta> listaDeContas;  // Lista de contas
+    private Agencia agencia;
     private Scanner scanner = new Scanner(System.in);
 
-    public TransferenciaEntreContas() {
-        this.listaDeContas = listaDeContas;
+    public TransferenciaEntreContas(List<Conta> listaDeContas, Agencia agencia) {
+        this.listaDeContas = this.listaDeContas;
     }
 
     public void realizarTransferencia() {

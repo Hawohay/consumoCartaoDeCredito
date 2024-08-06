@@ -14,6 +14,7 @@ public class Titular extends Identificacao implements Endereco {
     private String municipio;
     private String bairro;
     private String logradouro;
+    private Cartao cartao;
 
     private static List<Titular> listaDeClientes = new ArrayList<>();
 
@@ -27,6 +28,7 @@ public class Titular extends Identificacao implements Endereco {
         this.municipio = municipio;
         this.bairro = bairro;
         this.logradouro = logradouro;
+        this.cartao = null;
     }
 
     public Titular() {
@@ -120,6 +122,14 @@ public class Titular extends Identificacao implements Endereco {
     public int calculaIdade() {
         LocalDate hoje = LocalDate.now();
         return Period.between(dataDeNascimento, hoje).getYears();
+    }
+
+    public Cartao getCartao() {
+        return cartao;
+    }
+
+    public void setCartao(Cartao cartao) {
+        this.cartao = cartao;
     }
 
     public String getNome() {

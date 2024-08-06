@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -44,11 +45,7 @@ public class MenuCartao {
     }
 
     private void adicionarCartao() {
-        // Cadastro do cliente usando a classe Titular
-        Titular titular = new Titular();
-        titular.cadastrarCliente();
-
-        // A partir do cliente cadastrado, criar um cartão
+        // Solicitar o CPF do cliente para associar o cartão
         System.out.print("Digite o CPF do cliente para associar o cartão: ");
         String cpf = scanner.nextLine();
 
@@ -59,35 +56,67 @@ public class MenuCartao {
             return;
         }
 
-        // Dados do cartão
-        String numeroDoCartao = GeradorCartao.gerarNumeroCartaoValido(cartoes);
-        int cvv = GeradorCartao.gerarCVV(cartoes);
-        System.out.println("Número do Cartão Gerado: " + numeroDoCartao);
-        System.out.println("Número do CVV: " + cvv);
+        // Verificar se o cliente já possui um cartão
+        Cartao cartaoExistente = cliente.getCartao(); // Supondo que Titular tem um método getCartao()
 
-        System.out.print("Bandeira: ");
-        String bandeira = scanner.nextLine();
+        if (cartaoExistente != null) {
+            // Atualizar informações do cartão existente
+            System.out.println("Atualizando informações do cartão existente.");
 
-        System.out.print("Função do Cartão: ");
-        String funcaoDoCartao = scanner.nextLine();
+            System.out.print("Bandeira: ");
+            String bandeira = scanner.nextLine();
 
-        System.out.print("Anos de Validade: ");
-        int anosDeValidade = scanner.nextInt();
-        scanner.nextLine(); // Consumir nova linha
+            System.out.print("Função do Cartão: ");
+            String funcaoDoCartao = scanner.nextLine();
 
-        System.out.print("Limite de Crédito: ");
-        double limiteDeCredito = scanner.nextDouble();
-        scanner.nextLine(); // Consumir nova linha
+            System.out.print("Anos de Validade: ");
+            int anosDeValidade = scanner.nextInt();
+            scanner.nextLine(); // Consumir nova linha
 
-        // Criar o cartão com a lista de cartões existentes
-        Cartao cartao = new Cartao(cliente.getNome(), cliente.getDataDeNascimento(), cliente.getRg(),
-                cliente.getOrgaoEmissorRg(), cliente.getCpf(), bandeira, funcaoDoCartao, anosDeValidade,
-                limiteDeCredito, cliente.getCep(), cliente.getUnidadeFederativa(), cliente.getMunicipio(),
-                cliente.getBairro(), cliente.getLogradouro(), cartoes);
+            System.out.print("Limite de Crédito: ");
+            double limiteDeCredito = scanner.nextDouble();
+            scanner.nextLine(); // Consumir nova linha
 
-        cartoes.add(cartao);
-        System.out.println("Cartão adicionado com sucesso!");
+            cartaoExistente.setBandeira(bandeira);
+            cartaoExistente.setFuncaoDoCartao(funcaoDoCartao);
+            cartaoExistente.setDataDeValidade(LocalDate.now().plusYears(anosDeValidade));
+            cartaoExistente.setLimiteDeCredito(limiteDeCredito);
+            System.out.println("Cartão atualizado com sucesso!");
+        } else {
+            // Criar um novo cartão
+            System.out.println("Criando um novo cartão.");
+
+            String numeroDoCartao = GeradorCartao.gerarNumeroCartaoValido(cartoes);
+            int cvv = GeradorCartao.gerarCVV(cartoes);
+            System.out.println("Número do Cartão Gerado: " + numeroDoCartao);
+            System.out.println("Número do CVV: " + cvv);
+
+            System.out.print("Bandeira: ");
+            String bandeira = scanner.nextLine();
+
+            System.out.print("Função do Cartão: ");
+            String funcaoDoCartao = scanner.nextLine();
+
+            System.out.print("Anos de Validade: ");
+            int anosDeValidade = scanner.nextInt();
+            scanner.nextLine(); // Consumir nova linha
+
+            System.out.print("Limite de Crédito: ");
+            double limiteDeCredito = scanner.nextDouble();
+            scanner.nextLine(); // Consumir nova linha
+
+            // Criar o cartão e associá-lo ao cliente
+            Cartao cartao = new Cartao(cliente.getNome(), cliente.getDataDeNascimento(), cliente.getRg(),
+                    cliente.getOrgaoEmissorRg(), cliente.getCpf(), bandeira, funcaoDoCartao, anosDeValidade,
+                    limiteDeCredito, cliente.getCep(), cliente.getUnidadeFederativa(), cliente.getMunicipio(),
+                    cliente.getBairro(), cliente.getLogradouro(), cartoes);
+
+            cartoes.add(cartao);
+            cliente.setCartao(cartao); // Supondo que Titular tem um método setCartao()
+            System.out.println("Cartão adicionado com sucesso!");
+        }
     }
+
 
     private void exibirCartoes() {
         if (cartoes.isEmpty()) {

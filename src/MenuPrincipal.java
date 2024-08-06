@@ -1,14 +1,21 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class MenuPrincipal {
 
-    public static void exibirMenuPrincipal() {
+    private List<Conta> listaDeContas;
+    private Agencia agencia;
+    private Scanner scanner = new Scanner(System.in);
 
-        Scanner scanner = new Scanner(System.in);
-        Titular titular = new Titular();
+    // Construtor para inicializar listaDeContas e agencia
+    public MenuPrincipal(List<Conta> listaDeContas, Agencia agencia) {
+        this.listaDeContas = listaDeContas;
+        this.agencia = agencia;
+    }
 
+    public void exibirMenuPrincipal() {
         MenuCartao menuCartao = new MenuCartao();
-        MenuMovimentacoesFinanceiras menuMovimentacoesFinanceiras = new MenuMovimentacoesFinanceiras();
+        MenuMovimentacoesFinanceiras menuMovimentacoesFinanceiras = new MenuMovimentacoesFinanceiras(agencia);
 
         while (true) {
             System.out.println("------------------------------");
@@ -19,20 +26,23 @@ public class MenuPrincipal {
             System.out.println("5 - Menu Movimentações Financeiras");
             System.out.println("9 - Sair");
             System.out.println("------------------------------");
-            System.out.println("Escolha uma opção:");
+            System.out.print("Escolha uma opção: ");
 
             int opcao = scanner.nextInt();
             scanner.nextLine(); // Limpar o buffer do scanner
 
             switch (opcao) {
                 case 1:
-                    titular.cadastrarCliente();
+                    Titular cadastrarTitular = new Titular(); // Criar instância de Titular
+                    cadastrarTitular.cadastrarCliente();
                     break;
                 case 2:
-                    titular.atualizarDadosCliente();
+                    Titular atualizarTitular = new Titular(); // Criar instância de Titular
+                    atualizarTitular.atualizarDadosCliente();
                     break;
                 case 3:
-                    titular.pesquisarCliente();
+                    Titular pesquisarTitular = new Titular(); // Criar instância de Titular
+                    pesquisarTitular.pesquisarCliente();
                     break;
                 case 4:
                     menuCartao.exibirMenuCartao();
@@ -48,5 +58,16 @@ public class MenuPrincipal {
                     System.out.println("Opção inválida! Tente novamente.");
             }
         }
+    }
+
+    // Método main para inicialização e execução do menu
+    public static void main(String[] args) {
+        // Exemplo de criação de dados
+        Agencia agencia = new Agencia("001", "Agência Principal");
+        List<Conta> listaDeContas = agencia.getContas();
+
+        // Criar uma instância de MenuPrincipal
+        MenuPrincipal menuPrincipal = new MenuPrincipal(listaDeContas, agencia);
+        menuPrincipal.exibirMenuPrincipal();
     }
 }
