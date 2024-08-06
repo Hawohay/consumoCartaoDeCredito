@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class MenuPrincipal {
 
-    public void exibirMenuPrincipal() {
+    public static void exibirMenuPrincipal() {
 
         Scanner scanner = new Scanner(System.in);
         Titular titular = new Titular();
@@ -38,7 +38,7 @@ public class MenuPrincipal {
                     menuCartao.exibirMenuCartao();
                     break;
                 case 5:
-                    menuMovimentacoesFinanceiras.exibirMovimentacoesFinanceiras();
+                    menuMovimentacoesFinanceiras.exibirMenuMovimentacoesFinanceiras();
                     break;
                 case 9:
                     System.out.println("Encerrando o sistema...");
