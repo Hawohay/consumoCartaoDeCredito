@@ -24,6 +24,8 @@ public class MenuPrincipal {
             System.out.println("3 - Pesquisar Cliente");
             System.out.println("4 - Menu Cartão");
             System.out.println("5 - Menu Movimentações Financeiras");
+            System.out.println("6 - Manter Agência");
+            System.out.println("7 - Manter conta");
             System.out.println("9 - Sair");
             System.out.println("------------------------------");
             System.out.print("Escolha uma opção: ");
@@ -49,6 +51,12 @@ public class MenuPrincipal {
                     break;
                 case 5:
                     menuMovimentacoesFinanceiras.exibirMenuMovimentacoesFinanceiras();
+                    break;
+                case 6:
+                    Agencia.cadastrarAgencia();
+                    break;
+                case 7:
+
                     break;
                 case 9:
                     System.out.println("Encerrando o sistema...");

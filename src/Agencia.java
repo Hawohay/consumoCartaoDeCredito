@@ -37,7 +37,7 @@ public class Agencia implements Endereco {
     public Agencia() {
     }
 
-    public void cadastrarAgencia() {
+    public static void cadastrarAgencia() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Digite o número da agência:");
