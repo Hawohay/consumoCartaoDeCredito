@@ -1,13 +1,19 @@
-import java.util.Scanner;
+import java.util.List;
 
 public class ContaCorrente extends Conta {
-    
+
     private double taxaManutencao;
-    
-    Scanner scanner = new Scanner(System.in);
-    
-    public ContaCorrente(String numero, Titular titular, Agencia agencia, double taxaManutencao) {
-        super(numero, titular, agencia);
+
+    /**
+     * Construtor para inicializar uma conta corrente.
+     *
+     * @param contasExistentes A lista de contas existentes para garantir unicidade do número da conta.
+     * @param titular O titular da conta.
+     * @param agencia A agência associada à conta.
+     * @param taxaManutencao A taxa de manutenção da conta corrente.
+     */
+    public ContaCorrente(List<Conta> contasExistentes, Titular titular, Agencia agencia, double taxaManutencao) {
+        super(contasExistentes, titular, agencia);
         this.taxaManutencao = taxaManutencao;
     }
 
@@ -15,9 +21,8 @@ public class ContaCorrente extends Conta {
     public void depositar(double valor) {
         if (valor > 0) {
             saldo += valor;
-            System.out.println("Depósito de " + valor + " realizado com sucesso. Novo saldo: " + saldo);
         } else {
-            System.out.println("Valor de depósito inválido.");
+            throw new IllegalArgumentException("Valor de depósito inválido.");
         }
     }
 
@@ -26,13 +31,14 @@ public class ContaCorrente extends Conta {
         // Conta Corrente normalmente não tem rendimento, então não faz nada
     }
 
+    /**
+     * Cobra a taxa de manutenção da conta corrente.
+     */
     public void cobrarTaxa() {
         if (saldo >= taxaManutencao) {
             saldo -= taxaManutencao;
-            System.out.println("Taxa de manutenção de " + taxaManutencao + " cobrada. Novo saldo: " + saldo);
         } else {
-            System.out.println("Saldo insuficiente para cobrar a taxa de manutenção.");
+            throw new IllegalStateException("Saldo insuficiente para cobrar a taxa de manutenção.");
         }
     }
 }
-

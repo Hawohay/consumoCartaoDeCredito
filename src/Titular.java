@@ -16,7 +16,7 @@ public class Titular extends Identificacao implements Endereco {
     private String logradouro;
     private Cartao cartao;
 
-    private static List<Titular> listaDeClientes = new ArrayList<>();
+    private static final List<Titular> listaDeClientes = new ArrayList<>();
 
     public Titular(String nome, LocalDate dataDeNascimento, int rg, String orgaoEmissorRg, String cpf,
                    String cep, String unidadeFederativa, String municipio, String bairro, String logradouro) {

@@ -1,10 +1,10 @@
 public class LuhnAlgorithm {
-    public static int calcularDigitoVerificador(String numeroCartaoBase) {
+    public static int calcularDigitoVerificador(String numeroBase) {
         int soma = 0;
         boolean alternar = true;
 
-        for (int i = numeroCartaoBase.length() - 1; i >= 0; i--) {
-            int digito = Character.getNumericValue(numeroCartaoBase.charAt(i));
+        for (int i = numeroBase.length() - 1; i >= 0; i--) {
+            int digito = Character.getNumericValue(numeroBase.charAt(i));
 
             if (alternar) {
                 digito *= 2;
@@ -20,7 +20,7 @@ public class LuhnAlgorithm {
         return (10 - (soma % 10)) % 10;
     }
 
-    public static boolean validarNumeroCartao(String numeroCartao) {
+    public static boolean validarNumero(String numeroCartao) {
         int soma = 0;
         boolean alternar = false;
 

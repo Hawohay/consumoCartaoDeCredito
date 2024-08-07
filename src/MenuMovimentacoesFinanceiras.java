@@ -15,7 +15,7 @@ public class MenuMovimentacoesFinanceiras {
 
         Deposito novoDeposito = new Deposito(listaDeContas, agencia);
         TransferenciaEntreContas novaTransferencia = new TransferenciaEntreContas(listaDeContas, agencia);
-        Saque novoSaque = new Saque(listaDeContas, agencia);
+        Saque novoSaque = new Saque(agencia); // Corrigido: passa apenas a agência
         Saldo exibeSaldo = new Saldo(listaDeContas, agencia);
 
         while (true) {

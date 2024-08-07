@@ -1,9 +1,19 @@
+import java.util.List;
+
 public class ContaPoupanca extends Conta {
+
     private double taxaRendimento;
 
-    public ContaPoupanca(String numero, Titular titular, Agencia agencia, double taxaRendimento) {
-        super(numero, titular, agencia);
-        this.taxaRendimento = taxaRendimento;
+    /**
+     * Construtor para inicializar uma conta corrente.
+     *
+     * @param contasExistentes A lista de contas existentes para garantir unicidade do número da conta.
+     * @param titular O titular da conta.
+     * @param agencia A agência associada à conta.
+     * @param taxaManutencao A taxa de manutenção da conta corrente.
+     */
+    public ContaPoupanca(List<Conta> contasExistentes, Titular titular, Agencia agencia, double taxaManutencao) {
+        super(contasExistentes, titular, agencia);
     }
 
     @Override

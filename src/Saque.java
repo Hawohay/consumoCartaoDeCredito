@@ -1,13 +1,11 @@
-import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Saque {
-    private List<Conta> listaDeContas;
     private Agencia agencia;
     private Scanner scanner = new Scanner(System.in);
 
-    public Saque(List<Conta> listaDeContas, Agencia agencia) {
-        this.listaDeContas = listaDeContas;
+    public Saque(Agencia agencia) {
         this.agencia = agencia;
     }
 
@@ -26,47 +24,11 @@ public class Saque {
 
             switch (opcaoSaque) {
                 case 1:
-                    System.out.print("Digite o número da conta corrente do cliente que deseja realizar o saque: ");
-                    String numeroContaCorrenteParaSaque = scanner.nextLine();
-
-                    Conta contaCorrenteParaSaque = agencia.buscarConta(numeroContaCorrenteParaSaque);
-
-                    if (contaCorrenteParaSaque instanceof ContaCorrente) {
-                        System.out.print("Digite o valor do saque: ");
-                        double valorSaque = scanner.nextDouble();
-                        scanner.nextLine(); // Limpar o buffer do scanner
-
-                        if (contaCorrenteParaSaque.getSaldo() >= valorSaque) {
-                            contaCorrenteParaSaque.sacar(valorSaque);
-                            System.out.println("Saque realizado com sucesso.");
-                        } else {
-                            System.out.println("Saldo insuficiente para o saque.");
-                        }
-                    } else {
-                        System.out.println("Conta com número " + numeroContaCorrenteParaSaque + " não encontrada ou não é uma conta corrente.");
-                    }
+                    realizarSaqueConta("Conta Corrente", ContaCorrente.class);
                     break;
 
                 case 2:
-                    System.out.print("Digite o número da conta poupança do cliente que deseja realizar o saque: ");
-                    String numeroContaPoupancaParaSaque = scanner.nextLine();
-
-                    Conta contaPoupancaParaSaque = agencia.buscarConta(numeroContaPoupancaParaSaque);
-
-                    if (contaPoupancaParaSaque instanceof ContaPoupanca) {
-                        System.out.print("Digite o valor do saque: ");
-                        double valorSaque = scanner.nextDouble();
-                        scanner.nextLine(); // Limpar o buffer do scanner
-
-                        if (contaPoupancaParaSaque.getSaldo() >= valorSaque) {
-                            contaPoupancaParaSaque.sacar(valorSaque);
-                            System.out.println("Saque realizado com sucesso.");
-                        } else {
-                            System.out.println("Saldo insuficiente para o saque.");
-                        }
-                    } else {
-                        System.out.println("Conta com número " + numeroContaPoupancaParaSaque + " não encontrada ou não é uma conta poupança.");
-                    }
+                    realizarSaqueConta("Conta Poupança", ContaPoupanca.class);
                     break;
 
                 case 3:
@@ -79,6 +41,29 @@ public class Saque {
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
+        }
+    }
+
+    private <T extends Conta> void realizarSaqueConta(String tipoConta, Class<T> classeConta) {
+        System.out.print("Digite o número da " + tipoConta + " do cliente que deseja realizar o saque: ");
+        String numeroConta = scanner.nextLine();
+
+        Optional<Conta> contaOptional = agencia.buscarConta(numeroConta);
+
+        if (contaOptional.isPresent() && classeConta.isInstance(contaOptional.get())) {
+            T conta = classeConta.cast(contaOptional.get());
+            System.out.print("Digite o valor do saque: ");
+            double valorSaque = scanner.nextDouble();
+            scanner.nextLine(); // Limpar o buffer do scanner
+
+            if (conta.getSaldo() >= valorSaque) {
+                conta.sacar(valorSaque);
+                System.out.println("Saque realizado com sucesso. Novo saldo: " + conta.getSaldo());
+            } else {
+                System.out.println("Saldo insuficiente para o saque.");
+            }
+        } else {
+            System.out.println("Conta com número " + numeroConta + " não encontrada ou não é uma " + tipoConta + ".");
         }
     }
 }

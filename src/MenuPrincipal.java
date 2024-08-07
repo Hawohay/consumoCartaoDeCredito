@@ -59,15 +59,4 @@ public class MenuPrincipal {
             }
         }
     }
-
-    // Método main para inicialização e execução do menu
-    public static void main(String[] args) {
-        // Exemplo de criação de dados
-        Agencia agencia = new Agencia("001", "Agência Principal");
-        List<Conta> listaDeContas = agencia.getContas();
-
-        // Criar uma instância de MenuPrincipal
-        MenuPrincipal menuPrincipal = new MenuPrincipal(listaDeContas, agencia);
-        menuPrincipal.exibirMenuPrincipal();
-    }
 }

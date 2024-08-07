@@ -1,11 +1,20 @@
+import java.util.List;
+
 public abstract class Conta {
     protected String numero;
     protected double saldo;
     protected Titular titular;
     protected Agencia agencia;
 
-    public Conta(String numero, Titular titular, Agencia agencia) {
-        this.numero = numero;
+    /**
+     * Construtor para inicializar uma conta.
+     *
+     * @param contasExistentes A lista de contas existentes para garantir unicidade do número da conta.
+     * @param titular O titular da conta.
+     * @param agencia A agência associada à conta.
+     */
+    public Conta(List<Conta> contasExistentes, Titular titular, Agencia agencia) {
+        this.numero = GeradorDeConta.gerarNumeroContaValida(contasExistentes);
         this.titular = titular;
         this.agencia = agencia;
         this.saldo = 0.0;
@@ -16,7 +25,7 @@ public abstract class Conta {
     }
 
     public double getSaldo() {
-        return 0;
+        return saldo;
     }
 
     public Titular getTitular() {
