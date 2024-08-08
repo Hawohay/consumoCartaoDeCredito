@@ -1,21 +1,12 @@
-import java.util.List;
 import java.util.Scanner;
 
 public class MenuPrincipal {
-
-    private List<Conta> listaDeContas;
     private Agencia agencia;
     private Scanner scanner = new Scanner(System.in);
 
-    // Construtor para inicializar listaDeContas e agencia
-    public MenuPrincipal(List<Conta> listaDeContas, Agencia agencia) {
-        this.listaDeContas = listaDeContas;
-        this.agencia = agencia;
-    }
-
-    public void exibirMenuPrincipal() {
+    public void exibeMenuPrincipal() {
         MenuCartao menuCartao = new MenuCartao();
-        MenuMovimentacoesFinanceiras menuMovimentacoesFinanceiras = new MenuMovimentacoesFinanceiras(agencia);
+        MenuMovimentacoesFinanceiras menuMovimentacoesFinanceiras = null;
 
         while (true) {
             System.out.println("------------------------------");
@@ -25,7 +16,7 @@ public class MenuPrincipal {
             System.out.println("4 - Menu Cartão");
             System.out.println("5 - Menu Movimentações Financeiras");
             System.out.println("6 - Manter Agência");
-            System.out.println("7 - Manter conta");
+            System.out.println("7 - Manter Conta");
             System.out.println("9 - Sair");
             System.out.println("------------------------------");
             System.out.print("Escolha uma opção: ");
@@ -35,28 +26,32 @@ public class MenuPrincipal {
 
             switch (opcao) {
                 case 1:
-                    Titular cadastrarTitular = new Titular(); // Criar instância de Titular
-                    cadastrarTitular.cadastrarCliente();
+                    new Titular().cadastrarCliente();
                     break;
                 case 2:
-                    Titular atualizarTitular = new Titular(); // Criar instância de Titular
-                    atualizarTitular.atualizarDadosCliente();
+                    new Titular().atualizarDadosCliente();
                     break;
                 case 3:
-                    Titular pesquisarTitular = new Titular(); // Criar instância de Titular
-                    pesquisarTitular.pesquisarCliente();
+                    new Titular().pesquisarCliente();
                     break;
                 case 4:
                     menuCartao.exibirMenuCartao();
                     break;
                 case 5:
-                    menuMovimentacoesFinanceiras.exibirMenuMovimentacoesFinanceiras();
+                    if (agencia == null) {
+                        System.out.println("Nenhuma agência cadastrada. Crie uma agência primeiro.");
+                    } else {
+                        if (menuMovimentacoesFinanceiras == null) {
+                            menuMovimentacoesFinanceiras = new MenuMovimentacoesFinanceiras(agencia);
+                        }
+                        menuMovimentacoesFinanceiras.exibirMenuMovimentacoesFinanceiras();
+                    }
                     break;
                 case 6:
-                    Agencia.cadastrarAgencia();
+                    MenuAgencia.exibeMenuAgencia();
                     break;
                 case 7:
-                    // implementação
+                    // Lógica para manter contas (se necessário)
                     break;
                 case 9:
                     System.out.println("Encerrando o sistema...");

@@ -48,7 +48,7 @@ public class Saque {
         System.out.print("Digite o número da " + tipoConta + " do cliente que deseja realizar o saque: ");
         String numeroConta = scanner.nextLine();
 
-        Optional<Conta> contaOptional = agencia.buscarConta(numeroConta);
+        Optional<Conta> contaOptional = Optional.ofNullable(agencia.buscarConta(numeroConta));
 
         if (contaOptional.isPresent() && classeConta.isInstance(contaOptional.get())) {
             T conta = classeConta.cast(contaOptional.get());

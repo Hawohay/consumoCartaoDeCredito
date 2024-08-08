@@ -15,6 +15,7 @@ public class Titular extends Identificacao implements Endereco {
     private String bairro;
     private String logradouro;
     private Cartao cartao;
+    private List<Conta> contas;
 
     private static final List<Titular> listaDeClientes = new ArrayList<>();
 
@@ -112,6 +113,16 @@ public class Titular extends Identificacao implements Endereco {
         System.out.println("Município: " + getMunicipio());
         System.out.println("Bairro: " + getBairro());
         System.out.println("Logradouro: " + getLogradouro());
+        System.out.println("Agência: " + Agencia.getAgencia());
+
+        System.out.println("Contas:");
+        if (contas != null && !contas.isEmpty()) {
+            for (Conta conta : contas) {
+                System.out.println("Número da Conta: " + conta.getNumero());
+            }
+        } else {
+            System.out.println("Nenhuma conta associada.");
+        }
     }
 
     private String formatarData(LocalDate data) {
@@ -122,6 +133,14 @@ public class Titular extends Identificacao implements Endereco {
     public int calculaIdade() {
         LocalDate hoje = LocalDate.now();
         return Period.between(dataDeNascimento, hoje).getYears();
+    }
+
+    public List<Conta> getContas() {
+        return contas;
+    }
+
+    public void setContas(List<Conta> contas) {
+        this.contas = contas;
     }
 
     public Cartao getCartao() {

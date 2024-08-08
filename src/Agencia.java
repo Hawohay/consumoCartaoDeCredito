@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class Agencia implements Endereco {
@@ -16,12 +15,6 @@ public class Agencia implements Endereco {
 
     private static final List<Agencia> listaDeAgencias = new ArrayList<>();
 
-    /**
-     * Construtor para inicializar uma agência.
-     *
-     * @param numero O número da agência.
-     * @param nome O nome da agência.
-     */
     public Agencia(String numero, String nome, String cnpj, String cep, String unidadeFederativa, String municipio, String bairro, String logradouro) {
         this.numero = numero;
         this.nome = nome;
@@ -32,9 +25,6 @@ public class Agencia implements Endereco {
         this.municipio = municipio;
         this.bairro = bairro;
         this.logradouro = logradouro;
-    }
-
-    public Agencia() {
     }
 
     public static void cadastrarAgencia() {
@@ -64,7 +54,6 @@ public class Agencia implements Endereco {
         System.out.println("Digite o logradouro da agência:");
         String logradouro = scanner.nextLine();
 
-        // Verifica se a agência já existe na lista
         Agencia agenciaExistente = encontrarAgenciaPorNumero(numero);
 
         if (agenciaExistente != null) {
@@ -73,7 +62,6 @@ public class Agencia implements Endereco {
             String resposta = scanner.nextLine();
 
             if (resposta.equalsIgnoreCase("s")) {
-                // Atualiza as informações da agência existente
                 agenciaExistente.setNome(nome);
                 agenciaExistente.setCnpj(cnpj);
                 agenciaExistente.setCep(cep);
@@ -81,15 +69,43 @@ public class Agencia implements Endereco {
                 agenciaExistente.setMunicipio(municipio);
                 agenciaExistente.setBairro(bairro);
                 agenciaExistente.setLogradouro(logradouro);
+                System.out.println("Agência atualizada com sucesso.");
             }
         } else {
-            // Criação do objeto Agencia e adição na lista
-            Agencia agencia = new Agencia(numero, nome, cnpj, cep, unidadeFederativa, municipio, bairro, logradouro);
-            listaDeAgencias.add(agencia);
+            Agencia novaAgencia = new Agencia(numero, nome, cnpj, cep, unidadeFederativa, municipio, bairro, logradouro);
+            listaDeAgencias.add(novaAgencia);
+            System.out.println("Agência cadastrada com sucesso.");
         }
     }
 
-    private void setNome(String nome) {
+    public static Agencia encontrarAgenciaPorNumero(String numero) {
+        for (Agencia agencia : listaDeAgencias) {
+            if (agencia.getNumero().equals(numero)) {
+                return agencia;
+            }
+        }
+        return null;
+    }
+
+    public Conta buscarConta(String numeroConta) {
+        for (Conta conta : contas) {
+            if (conta.getNumero().equals(numeroConta)) {
+                return conta;
+            }
+        }
+        return null; // Retorna null se não encontrar a conta
+    }
+
+    public static Agencia getAgencia() {
+        // Método para retornar a última agência criada ou necessária
+        return listaDeAgencias.isEmpty() ? null : listaDeAgencias.get(listaDeAgencias.size() - 1);
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
@@ -97,110 +113,67 @@ public class Agencia implements Endereco {
         this.cnpj = cnpj;
     }
 
-    public static Agencia encontrarAgenciaPorNumero(String numeroDaAgencia) {
-        for (Agencia agencia : listaDeAgencias) {
-            if (agencia.getNumero().equals(numeroDaAgencia)) {
-                return agencia;
-            }
-        }
-        return null;
-    }
-
-    public Optional<Conta> buscarConta(String numeroDaConta) {
-        return contas.stream()
-                .filter(conta -> conta.getNumero().equals(numeroDaConta))
-                .findFirst();
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public List<Conta> getContas() {
-        return contas;
-    }
-
-    /**
-     * Adiciona uma conta à lista de contas da agência.
-     *
-     * @param conta A conta a ser adicionada.
-     */
-    public void adicionarConta(Conta conta) {
-        contas.add(conta);
-    }
-
-    /**
-     * Busca uma agência pelo número.
-     *
-     * @param numero O número da agência a ser buscada.
-     * @return Um Optional contendo a agência, se encontrada; caso contrário, um Optional vazio.
-     */
-    public Optional<Agencia> buscarAgencia(String numero) {
-        return listaDeAgencias.stream()
-                .filter(agencia -> agencia.getNumero().equals(numero))
-                .findFirst();
-    }
-
-    /**
-     * Remove uma conta da lista de contas da agência.
-     *
-     * @param conta A conta a ser removida.
-     */
-    public void removerConta(Conta conta) {
-        contas.remove(conta);
-    }
-
     @Override
     public String getCep() {
-        return cep;
+        return "";
     }
 
-    @Override
     public void setCep(String cep) {
         this.cep = cep;
     }
 
     @Override
     public String getUnidadeFederativa() {
-        return unidadeFederativa;
+        return "";
     }
 
-    @Override
     public void setUnidadeFederativa(String unidadeFederativa) {
         this.unidadeFederativa = unidadeFederativa;
     }
 
     @Override
     public String getMunicipio() {
-        return municipio;
+        return "";
     }
 
-    @Override
     public void setMunicipio(String municipio) {
         this.municipio = municipio;
     }
 
     @Override
     public String getBairro() {
-        return bairro;
+        return "";
     }
 
-    @Override
     public void setBairro(String bairro) {
         this.bairro = bairro;
     }
 
     @Override
     public String getLogradouro() {
-        return logradouro;
+        return "";
     }
 
-    @Override
     public void setLogradouro(String logradouro) {
         this.logradouro = logradouro;
+    }
+
+    public List<Conta> getContas() {
+        return contas;
+    }
+
+    public void adicionarConta(Conta conta) {
+        contas.add(conta);
+    }
+
+    public void exibirInfo() {
+        System.out.println("Número: " + numero);
+        System.out.println("Nome: " + nome);
+        System.out.println("CNPJ: " + cnpj);
+        System.out.println("CEP: " + cep);
+        System.out.println("Unidade Federativa: " + unidadeFederativa);
+        System.out.println("Município: " + municipio);
+        System.out.println("Bairro: " + bairro);
+        System.out.println("Logradouro: " + logradouro);
     }
 }
