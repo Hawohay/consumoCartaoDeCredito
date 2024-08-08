@@ -14,7 +14,7 @@ public class Titular extends Identificacao implements Endereco {
     private String municipio;
     private String bairro;
     private String logradouro;
-    private Cartao cartao;
+    private List<Cartao> cartao;
     private List<Conta> contas;
 
     private static final List<Titular> listaDeClientes = new ArrayList<>();
@@ -29,7 +29,8 @@ public class Titular extends Identificacao implements Endereco {
         this.municipio = municipio;
         this.bairro = bairro;
         this.logradouro = logradouro;
-        this.cartao = null;
+        this.cartao = new ArrayList<>();
+        this.contas = new ArrayList<>();
     }
 
     public Titular() {
@@ -143,12 +144,13 @@ public class Titular extends Identificacao implements Endereco {
         this.contas = contas;
     }
 
-    public Cartao getCartao() {
+    public List<Cartao> getCartoes() {  //
         return cartao;
     }
 
+
     public void setCartao(Cartao cartao) {
-        this.cartao = cartao;
+        this.cartao.add(cartao);
     }
 
     public String getNome() {

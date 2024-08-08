@@ -1,5 +1,4 @@
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,9 +7,9 @@ public class MenuCartao {
     private List<Cartao> cartoes;
     private Scanner scanner;
 
-    public MenuCartao() {
-        cartoes = new ArrayList<>();
-        scanner = new Scanner(System.in);
+    public MenuCartao(List<Cartao> cartoes) {
+        this.cartoes = cartoes;
+        this.scanner = new Scanner(System.in);
     }
 
     public void exibirMenuCartao() {
@@ -56,11 +55,13 @@ public class MenuCartao {
             return;
         }
 
-        // Verificar se o cliente já possui um cartão
-        Cartao cartaoExistente = cliente.getCartao(); // Supondo que Titular tem um método getCartao()
+        // Verificar se o cliente já possui cartões
+        List<Cartao> cartoesDoCliente = cliente.getCartoes();
 
-        if (cartaoExistente != null) {
-            // Atualizar informações do cartão existente
+        if (!cartoesDoCliente.isEmpty()) {
+            // Se já existir algum cartão, perguntar se deseja atualizar o primeiro cartão existente
+            Cartao cartaoExistente = cartoesDoCliente.get(0); // Pega o primeiro cartão da lista
+
             System.out.println("Atualizando informações do cartão existente.");
 
             System.out.print("Bandeira: ");
@@ -106,23 +107,35 @@ public class MenuCartao {
             scanner.nextLine(); // Consumir nova linha
 
             // Criar o cartão e associá-lo ao cliente
-            Cartao cartao = new Cartao(cliente.getNome(), cliente.getDataDeNascimento(), cliente.getRg(),
+            Cartao novoCartao = new Cartao(cliente.getNome(), cliente.getDataDeNascimento(), cliente.getRg(),
                     cliente.getOrgaoEmissorRg(), cliente.getCpf(), bandeira, funcaoDoCartao, anosDeValidade,
                     limiteDeCredito, cliente.getCep(), cliente.getUnidadeFederativa(), cliente.getMunicipio(),
                     cliente.getBairro(), cliente.getLogradouro(), cartoes);
 
-            cartoes.add(cartao);
-            cliente.setCartao(cartao); // Supondo que Titular tem um método setCartao()
+            cartoes.add(novoCartao);
+            cliente.getCartoes().add(novoCartao); // Adiciona o novo cartão à lista de cartões do titular
             System.out.println("Cartão adicionado com sucesso!");
         }
     }
 
-
     private void exibirCartoes() {
-        if (cartoes.isEmpty()) {
-            System.out.println("Nenhum cartão cadastrado.");
+        // Solicitar o CPF do cliente para exibir os cartões
+        System.out.print("Digite o CPF do cliente para exibir os cartões: ");
+        String cpf = scanner.nextLine();
+
+        Titular cliente = Titular.encontrarClientePorCpf(cpf);
+
+        if (cliente == null) {
+            System.out.println("Cliente não encontrado.");
+            return;
+        }
+
+        List<Cartao> cartoesDoCliente = cliente.getCartoes();
+
+        if (cartoesDoCliente.isEmpty()) {
+            System.out.println("Nenhum cartão cadastrado para este cliente.");
         } else {
-            for (Cartao cartao : cartoes) {
+            for (Cartao cartao : cartoesDoCliente) {
                 cartao.exibirInfo();
                 System.out.println();
             }

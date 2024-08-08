@@ -13,11 +13,16 @@ public abstract class Conta {
      * @param titular O titular da conta.
      * @param agencia A agência associada à conta.
      */
+
     public Conta(List<Conta> contasExistentes, Titular titular, Agencia agencia) {
         this.numero = GeradorDeConta.gerarNumeroContaValida(contasExistentes);
         this.titular = titular;
         this.agencia = agencia;
         this.saldo = 0.0;
+
+        // Associar a conta ao titular e à agência
+        titular.getContas().add(this);
+        agencia.getContas().add(this);
     }
 
     public String getNumero() {

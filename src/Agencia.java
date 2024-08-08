@@ -27,7 +27,7 @@ public class Agencia implements Endereco {
         this.logradouro = logradouro;
     }
 
-    public static void cadastrarAgencia() {
+    public static Agencia cadastrarAgencia() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Digite o número da agência:");
@@ -71,10 +71,12 @@ public class Agencia implements Endereco {
                 agenciaExistente.setLogradouro(logradouro);
                 System.out.println("Agência atualizada com sucesso.");
             }
+            return agenciaExistente;
         } else {
             Agencia novaAgencia = new Agencia(numero, nome, cnpj, cep, unidadeFederativa, municipio, bairro, logradouro);
             listaDeAgencias.add(novaAgencia);
             System.out.println("Agência cadastrada com sucesso.");
+            return novaAgencia;
         }
     }
 
@@ -175,5 +177,10 @@ public class Agencia implements Endereco {
         System.out.println("Município: " + municipio);
         System.out.println("Bairro: " + bairro);
         System.out.println("Logradouro: " + logradouro);
+    }
+
+    @Override
+    public String toString() {
+        return "Agência: " + this.nome + " Número: " + this.numero;
     }
 }

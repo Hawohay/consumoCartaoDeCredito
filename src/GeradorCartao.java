@@ -2,6 +2,7 @@ import java.util.List;
 import java.util.Random;
 
 public class GeradorCartao {
+
     public static String gerarNumeroCartaoValido(List<Cartao> cartoesExistentes) {
         String numeroCartao;
         boolean unico;

@@ -3,11 +3,11 @@ import java.util.Scanner;
 
 public class MenuMovimentacoesFinanceiras {
     private List<Conta> listaDeContas;
-    private Agencia agencia; // Adicionar a variável de instância para Agencia
+    private Agencia agencia;
 
     public MenuMovimentacoesFinanceiras(Agencia agencia) {
-        this.listaDeContas = agencia.getContas(); // Inicializa a lista de contas com a lista da agência
-        this.agencia = agencia; // Inicializa a agência
+        this.listaDeContas = agencia.getContas();
+        this.agencia = agencia;
     }
 
     public void exibirMenuMovimentacoesFinanceiras() {
@@ -15,7 +15,7 @@ public class MenuMovimentacoesFinanceiras {
 
         Deposito novoDeposito = new Deposito(listaDeContas, agencia);
         TransferenciaEntreContas novaTransferencia = new TransferenciaEntreContas(listaDeContas, agencia);
-        Saque novoSaque = new Saque(agencia); // Corrigido: passa apenas a agência
+        Saque novoSaque = new Saque(agencia);
         Saldo exibeSaldo = new Saldo(listaDeContas, agencia);
 
         while (true) {
@@ -29,7 +29,7 @@ public class MenuMovimentacoesFinanceiras {
             System.out.print("Escolha uma opção: ");
 
             int escolha = scanner.nextInt();
-            scanner.nextLine(); // Consumir nova linha
+            scanner.nextLine();
 
             switch (escolha) {
                 case 1:
@@ -48,7 +48,7 @@ public class MenuMovimentacoesFinanceiras {
                     return;
                 case 9:
                     System.out.println("Saindo...");
-                    System.exit(0); // Termina o programa
+                    System.exit(0);
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }

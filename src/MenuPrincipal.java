@@ -1,14 +1,25 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class MenuPrincipal {
     private Agencia agencia;
     private Scanner scanner = new Scanner(System.in);
+    private List<Cartao> cartoes = new ArrayList<>(); // Lista de cartões existente
 
     public void exibeMenuPrincipal() {
-        MenuCartao menuCartao = new MenuCartao();
-        MenuMovimentacoesFinanceiras menuMovimentacoesFinanceiras = null;
+        // Criação do menu de movimentações financeiras deve ocorrer após a agência ser criada
+        MenuCartao menuCartao = new MenuCartao(cartoes); // Passa a lista de cartões
 
         while (true) {
+            if (agencia == null) {
+                System.out.println("Nenhuma agência encontrada. Vamos criar uma nova agência.");
+                agencia = Agencia.cadastrarAgencia(); // Atualiza a variável agencia
+            }
+
+            // Instancia o menu de movimentações financeiras após garantir que agência não é null
+            MenuMovimentacoesFinanceiras menuMovimentacoesFinanceiras = new MenuMovimentacoesFinanceiras(agencia);
+
             System.out.println("------------------------------");
             System.out.println("1 - Cadastrar Cliente");
             System.out.println("2 - Atualizar Cliente");
@@ -38,17 +49,12 @@ public class MenuPrincipal {
                     menuCartao.exibirMenuCartao();
                     break;
                 case 5:
-                    if (agencia == null) {
-                        System.out.println("Nenhuma agência cadastrada. Crie uma agência primeiro.");
-                    } else {
-                        if (menuMovimentacoesFinanceiras == null) {
-                            menuMovimentacoesFinanceiras = new MenuMovimentacoesFinanceiras(agencia);
-                        }
-                        menuMovimentacoesFinanceiras.exibirMenuMovimentacoesFinanceiras();
-                    }
+                    menuMovimentacoesFinanceiras.exibirMenuMovimentacoesFinanceiras();
                     break;
                 case 6:
-                    MenuAgencia.exibeMenuAgencia();
+                    MenuAgencia.exibeMenuAgencia(); // Atualizar a agência se necessário
+                    // Recria o menu de movimentações financeiras após atualizar a agência
+                    menuMovimentacoesFinanceiras = new MenuMovimentacoesFinanceiras(agencia);
                     break;
                 case 7:
                     // Lógica para manter contas (se necessário)

@@ -11,7 +11,7 @@ public class Cartao extends Titular {
     private LocalDate dataDeValidade;
     private double limiteDeCredito;
 
-    // Construtor
+    // Construtor atualizado
     public Cartao(String nome, LocalDate dataDeNascimento, int rg, String orgaoEmissorRg, String cpf,
                   String bandeira, String funcaoDoCartao, int anosDeValidade, double limiteDeCredito,
                   String cep, String unidadeFederativa, String municipio, String bairro, String logradouro,
@@ -23,6 +23,16 @@ public class Cartao extends Titular {
         this.cvv = GeradorCartao.gerarCVV(cartoesExistentes);
         this.dataDeValidade = LocalDate.now().plusYears(anosDeValidade);
         this.limiteDeCredito = limiteDeCredito;
+    }
+
+    // Construtor adicional (se necessário)
+    public Cartao(String numeroDoCartao, String bandeira, String funcaoDoCartao, LocalDate dataDeValidade, double limiteDeCredito, int cvv) {
+        this.numeroDoCartao = numeroDoCartao;
+        this.bandeira = bandeira;
+        this.funcaoDoCartao = funcaoDoCartao;
+        this.dataDeValidade = dataDeValidade;
+        this.limiteDeCredito = limiteDeCredito;
+        this.cvv = cvv;
     }
 
     public void exibirInfo() {
