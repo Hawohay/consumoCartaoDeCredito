@@ -14,12 +14,12 @@ public class MenuCartao {
 
     public void exibirMenuCartao() {
         while (true) {
-            System.out.println("Menu de Opções:");
+            System.out.println("M. Menu de Opções:");
             System.out.println("1. Adicionar Cartão");
             System.out.println("2. Exibir Cartões");
             System.out.println("3. Voltar ao Menu Principal");
             System.out.println("9. Sair");
-            System.out.print("Escolha uma opção: ");
+            System.out.println("E. Escolha uma opção: ");
 
             int escolha = scanner.nextInt();
             scanner.nextLine(); // Consumir nova linha
