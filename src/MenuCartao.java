@@ -20,6 +20,7 @@ public class MenuCartao {
             System.out.println("3. Voltar ao Menu Principal");
             System.out.println("9. Sair");
             System.out.println("E. Escolha uma opção: ");
+            System.out.println();
 
             int escolha = scanner.nextInt();
             scanner.nextLine(); // Consumir nova linha
