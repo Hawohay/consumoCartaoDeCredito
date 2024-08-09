@@ -8,7 +8,8 @@ public class TransferenciaEntreContas {
     private Scanner scanner = new Scanner(System.in);
 
     public TransferenciaEntreContas(List<Conta> listaDeContas, Agencia agencia) {
-        this.listaDeContas = this.listaDeContas;
+        this.listaDeContas = listaDeContas; // Corrigido para inicializar com o parâmetro
+        this.agencia = agencia; // Certifique-se de inicializar a agência, se necessário
     }
 
     public void realizarTransferencia() {
@@ -16,13 +17,13 @@ public class TransferenciaEntreContas {
         System.out.println("Digite o CPF/CNPJ do cliente remetente:");
         String cpfRemetente = scanner.nextLine();
 
-        Conta contaRemetente = encontrarContaPorCpf(listaDeContas, cpfRemetente);
+        Conta contaRemetente = encontrarContaPorCpf(cpfRemetente);
 
         if (contaRemetente != null) {
             System.out.println("Digite o CPF do cliente destinatário:");
             String cpfDestinatario = scanner.nextLine();
 
-            Conta contaDestinatario = encontrarContaPorCpf(listaDeContas, cpfDestinatario);
+            Conta contaDestinatario = encontrarContaPorCpf(cpfDestinatario);
 
             if (contaDestinatario != null) {
                 System.out.println("Digite o valor a ser transferido:");
@@ -44,7 +45,10 @@ public class TransferenciaEntreContas {
         }
     }
 
-    private Conta encontrarContaPorCpf(List<Conta> listaDeContas, String cpf) {
+    private Conta encontrarContaPorCpf(String cpf) {
+        if (listaDeContas == null) {
+            throw new IllegalStateException("Lista de contas não foi inicializada.");
+        }
         for (Conta conta : listaDeContas) {
             if (conta.getTitular().getCpf().equals(cpf)) {
                 return conta;
