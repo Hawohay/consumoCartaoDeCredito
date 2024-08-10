@@ -146,15 +146,6 @@ public class Titular extends Identificacao implements Endereco {
         } else {
             System.out.println("Nenhuma conta associada.");
         }
-
-//        System.out.println("Cartões: ");
-//        if (cartoes != null && !cartoes.isEmpty()) {
-//            for (Cartao cartao : cartoes) {
-//                System.out.println("Número do cartão: " + cartao.getNumeroDoCartao());
-//            }
-//        } else {
-//            System.out.println("Nenhum cartão associado.");
-//        }
     }
 
     private String formatarData(LocalDate data) {
