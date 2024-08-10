@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +15,7 @@ public class Titular extends Identificacao implements Endereco {
     private String municipio;
     private String bairro;
     private String logradouro;
-    private List<Cartao> cartao;
+    private List<Cartao> cartoes;
     private List<Conta> contas;
 
     private static final List<Titular> listaDeClientes = new ArrayList<>();
@@ -29,7 +30,7 @@ public class Titular extends Identificacao implements Endereco {
         this.municipio = municipio;
         this.bairro = bairro;
         this.logradouro = logradouro;
-        this.cartao = new ArrayList<>();
+        this.cartoes = new ArrayList<>();
         this.contas = new ArrayList<>();
     }
 
@@ -45,13 +46,26 @@ public class Titular extends Identificacao implements Endereco {
         System.out.println("Digite o CPF/CNPJ do cliente:");
         String cpf = scanner.nextLine();
 
-        System.out.println("Digite a data de nascimento do cliente (dd/MM/yyyy):");
-        String dataNascimentoStr = scanner.nextLine();
-        LocalDate dataDeNascimento = LocalDate.parse(dataNascimentoStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalDate dataDeNascimento = null;
+        while (dataDeNascimento == null) {
+            System.out.println("Digite a data de nascimento do cliente (dd/MM/yyyy):");
+            String dataNascimentoStr = scanner.nextLine();
+            try {
+                dataDeNascimento = LocalDate.parse(dataNascimentoStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            } catch (DateTimeParseException e) {
+                System.out.println("Data inválida. Tente novamente.");
+            }
+        }
 
-        System.out.println("Digite o RG do cliente:");
-        int rg = scanner.nextInt();
-        scanner.nextLine(); // Limpar o buffer do scanner
+        int rg = -1;
+        while (rg <= 0) {
+            System.out.println("Digite o RG do cliente:");
+            try {
+                rg = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("RG inválido. Tente novamente.");
+            }
+        }
 
         System.out.println("Digite o órgão emissor do RG:");
         String orgaoEmissorRg = scanner.nextLine();
@@ -71,7 +85,6 @@ public class Titular extends Identificacao implements Endereco {
         System.out.println("Digite o logradouro do cliente:");
         String logradouro = scanner.nextLine();
 
-        // Verifica se o cliente já existe na lista
         Titular clienteExistente = encontrarClientePorCpf(cpf);
 
         if (clienteExistente != null) {
@@ -80,7 +93,6 @@ public class Titular extends Identificacao implements Endereco {
             String resposta = scanner.nextLine();
 
             if (resposta.equalsIgnoreCase("s")) {
-                // Atualiza as informações do cliente existente
                 clienteExistente.setNome(nome);
                 clienteExistente.setDataDeNascimento(dataDeNascimento);
                 clienteExistente.setCep(cep);
@@ -90,7 +102,6 @@ public class Titular extends Identificacao implements Endereco {
                 clienteExistente.setLogradouro(logradouro);
             }
         } else {
-            // Criação do objeto Cliente e adição na lista
             Titular cliente = new Titular(nome, dataDeNascimento, rg, orgaoEmissorRg, cpf, cep, unidadeFederativa, municipio, bairro, logradouro);
             listaDeClientes.add(cliente);
         }
@@ -98,25 +109,36 @@ public class Titular extends Identificacao implements Endereco {
 
     public static Titular encontrarClientePorCpf(String cpfCnpj) {
         for (Titular cliente : listaDeClientes) {
-            if (cliente.getCpf().equals(cpfCnpj)) {
+            if (cliente.getCpf().trim().equals(cpfCnpj.trim())) {
                 return cliente;
             }
         }
         return null;
     }
 
-    public void exibirInfo() {
-        System.out.println("Nome: " + getNome());
-        System.out.println("Data de Nascimento: " + formatarData(getDataDeNascimento()));
-        System.out.println("Idade: " + calculaIdade());
-        System.out.println("CEP: " + getCep());
-        System.out.println("Unidade Federativa: " + getUnidadeFederativa());
-        System.out.println("Município: " + getMunicipio());
-        System.out.println("Bairro: " + getBairro());
-        System.out.println("Logradouro: " + getLogradouro());
-        System.out.println("Agência: " + Agencia.getAgencia());
+    public void exibirInformacoesDadosPessoais() {
+        if (nome == null) {
+            System.out.println("Nome não disponível.");
+        } else {
+            System.out.println("Nome: " + nome);
+        }
 
-        System.out.println("Contas:");
+        if (dataDeNascimento == null) {
+            System.out.println("Data de Nascimento não disponível.");
+        } else {
+            System.out.println("Data de Nascimento: " + formatarData(dataDeNascimento));
+            System.out.println("Idade: " + calculaIdade());
+        }
+
+        System.out.println("CEP: " + (cep != null ? cep : "Não disponível"));
+        System.out.println("Unidade Federativa: " + (unidadeFederativa != null ? unidadeFederativa : "Não disponível"));
+        System.out.println("Município: " + (municipio != null ? municipio : "Não disponível"));
+        System.out.println("Bairro: " + (bairro != null ? bairro : "Não disponível"));
+        System.out.println("Logradouro: " + (logradouro != null ? logradouro : "Não disponível"));
+
+        System.out.println("Agência: " + (Agencia.getAgencia() != null ? Agencia.getAgencia() : "Não disponível"));
+
+        System.out.println("Contas: ");
         if (contas != null && !contas.isEmpty()) {
             for (Conta conta : contas) {
                 System.out.println("Número da Conta: " + conta.getNumero());
@@ -124,9 +146,21 @@ public class Titular extends Identificacao implements Endereco {
         } else {
             System.out.println("Nenhuma conta associada.");
         }
+
+//        System.out.println("Cartões: ");
+//        if (cartoes != null && !cartoes.isEmpty()) {
+//            for (Cartao cartao : cartoes) {
+//                System.out.println("Número do cartão: " + cartao.getNumeroDoCartao());
+//            }
+//        } else {
+//            System.out.println("Nenhum cartão associado.");
+//        }
     }
 
     private String formatarData(LocalDate data) {
+        if (data == null) {
+            return "Data não disponível";
+        }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return data.format(formatter);
     }
@@ -145,12 +179,12 @@ public class Titular extends Identificacao implements Endereco {
     }
 
     public List<Cartao> getCartoes() {  //
-        return cartao;
+        return cartoes;
     }
 
 
     public void setCartao(Cartao cartao) {
-        this.cartao.add(cartao);
+        this.cartoes.add(cartao);
     }
 
     public String getNome() {
@@ -278,7 +312,7 @@ public class Titular extends Identificacao implements Endereco {
 
                     case 6:
                         System.out.println("Dados do cliente:");
-                        clienteParaAtualizar.exibirInfo();
+                        clienteParaAtualizar.exibirInformacoesDadosPessoais();
                         System.out.println(); // Adiciona uma linha em branco entre os detalhes dos clientes
                         break;
 
@@ -308,7 +342,7 @@ public class Titular extends Identificacao implements Endereco {
         Titular cliente = encontrarClientePorCpf(numeroCpfCnpj);
 
         if (cliente != null) {
-            cliente.exibirInfo();
+            cliente.exibirInformacoesDadosPessoais();
             System.out.println("-----------------------------");
         } else {
             System.out.println("Cliente com CPF/CNPJ " + numeroCpfCnpj + " não encontrado.");

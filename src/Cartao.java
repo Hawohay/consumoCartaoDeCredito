@@ -1,50 +1,47 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
-public class Cartao extends Titular {
-
+public class Cartao {
     private String numeroDoCartao;
     private String bandeira;
     private String funcaoDoCartao;
     private int cvv;
     private LocalDate dataDeValidade;
     private double limiteDeCredito;
+    private Titular titular; // Referência ao titular
 
-    // Construtor atualizado
-    public Cartao(String nome, LocalDate dataDeNascimento, int rg, String orgaoEmissorRg, String cpf,
-                  String bandeira, String funcaoDoCartao, int anosDeValidade, double limiteDeCredito,
-                  String cep, String unidadeFederativa, String municipio, String bairro, String logradouro,
-                  List<Cartao> cartoesExistentes) {
-        super(nome, dataDeNascimento, rg, orgaoEmissorRg, cpf, cep, unidadeFederativa, municipio, bairro, logradouro);
-        this.numeroDoCartao = GeradorCartao.gerarNumeroCartaoValido(cartoesExistentes);
-        this.bandeira = bandeira;
-        this.funcaoDoCartao = funcaoDoCartao;
-        this.cvv = GeradorCartao.gerarCVV(cartoesExistentes);
-        this.dataDeValidade = LocalDate.now().plusYears(anosDeValidade);
-        this.limiteDeCredito = limiteDeCredito;
-    }
-
-    // Construtor adicional (se necessário)
-    public Cartao(String numeroDoCartao, String bandeira, String funcaoDoCartao, LocalDate dataDeValidade, double limiteDeCredito, int cvv) {
+    // Construtor
+    public Cartao(String numeroDoCartao, String bandeira, String funcaoDoCartao, LocalDate dataDeValidade, double limiteDeCredito, int cvv, Titular titular) {
         this.numeroDoCartao = numeroDoCartao;
         this.bandeira = bandeira;
         this.funcaoDoCartao = funcaoDoCartao;
         this.dataDeValidade = dataDeValidade;
         this.limiteDeCredito = limiteDeCredito;
         this.cvv = cvv;
+        this.titular = titular;
     }
 
-    public void exibirInfo() {
-        super.exibirInfo();
+    public void exibirInformacoesDoCartao() {
+        // Exibe informações pessoais do titular
+        if (titular != null) {
+            titular.exibirInformacoesDadosPessoais();
+        }
+
         System.out.println("Número do Cartão: " + numeroDoCartao);
         System.out.println("Bandeira: " + bandeira);
         System.out.println("Função do Cartão: " + funcaoDoCartao);
         System.out.println("CVV: " + cvv);
-        System.out.println("Data de Validade: " + dataDeValidade.format(DateTimeFormatter.ofPattern("MM/yy")));
+
+        if (dataDeValidade != null) {
+            System.out.println("Data de Validade: " + dataDeValidade.format(DateTimeFormatter.ofPattern("MM/yy")));
+        } else {
+            System.out.println("Data de Validade: Não disponível");
+        }
+
         System.out.println("Limite de Crédito: " + limiteDeCredito);
-        System.out.println("Endereço: " + getLogradouro() + ", " + getBairro() + ", " + getMunicipio() + " - " + getUnidadeFederativa() + ", CEP: " + getCep());
+        System.out.println("Endereço: " + (titular != null ? (titular.getLogradouro() + ", " + titular.getBairro() + ", " + titular.getMunicipio() + " - " + titular.getUnidadeFederativa() + ", CEP: " + titular.getCep()) : "Não disponível"));
     }
+
 
     // Getters e Setters
     public String getNumeroDoCartao() {

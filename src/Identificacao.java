@@ -33,8 +33,9 @@ public class Identificacao {
     }
 
     public String getCpf() {
-        return cpf;
+        return cpf != null ? cpf.replaceAll("\\D", "") : null;
     }
+
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
