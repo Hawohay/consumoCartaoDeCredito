@@ -1,3 +1,5 @@
+package com.bancodigital;
+
 public class LuhnAlgorithm {
     public static int calcularDigitoVerificador(String numeroBase) {
         int soma = 0;

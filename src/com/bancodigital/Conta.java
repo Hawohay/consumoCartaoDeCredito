@@ -1,3 +1,5 @@
+package com.bancodigital;
+
 import java.util.List;
 
 public abstract class Conta {

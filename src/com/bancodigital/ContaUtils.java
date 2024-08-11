@@ -1,3 +1,5 @@
+package com.bancodigital;
+
 import java.util.Random;
 
 public class ContaUtils {

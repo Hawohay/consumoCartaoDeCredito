@@ -1,3 +1,5 @@
+package com.bancodigital;
+
 import java.util.List;
 
 public class ContaCorrente extends Conta {

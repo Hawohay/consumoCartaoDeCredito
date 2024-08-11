@@ -1,3 +1,4 @@
+package com.bancodigital;
 
 public class Identificacao {
 

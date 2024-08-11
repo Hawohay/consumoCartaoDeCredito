@@ -1,3 +1,5 @@
+package com.bancodigital;
+
 public interface Endereco {
     String getCep();
     void setCep(String cep);

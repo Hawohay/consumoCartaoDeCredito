@@ -1,3 +1,5 @@
+package com.bancodigital;
+
 public class CPFValidator {
     public static boolean validarCPF(String cpf) {
         // Remover caracteres não numéricos
