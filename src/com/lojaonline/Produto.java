@@ -1,5 +1,9 @@
 package com.lojaonline;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class Produto {
     private String codigo;
     private String tipo;
@@ -7,7 +11,9 @@ public class Produto {
     private String descricao;
     private double valor;
 
-    public Produto(String codigo, String tipo, String nome, String descricao, int quantidade, double valor) {
+    private static final List<Produto> listaDeProdutos = new ArrayList<>();
+
+    public Produto(String codigo, String tipo, String nome, String descricao, double valor) {
         this.codigo = codigo;
         this.tipo = tipo;
         this.nome = nome;
@@ -54,4 +60,19 @@ public class Produto {
     public void setValor(double valor) {
         this.valor = valor;
     }
+
+    Produto produtoCadastrado = encontrarProdutoPorCodigo(codigo);
+
+    Produto produto = new Produto(codigo, tipo, nome, descricao, valor);
+
+
+    public static Produto encontrarProdutoPorCodigo(String codigo) {
+        for (Produto produto : listaDeProdutos) {
+            if (produto.getCodigo().trim().equals(codigo.trim())) {
+                return produto;
+            }
+        }
+        return null;
+    }
+
 }
