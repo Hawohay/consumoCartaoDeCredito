@@ -1,4 +1,4 @@
-package com.lojaonline;
+package com.loja;
 import java.util.List;
 
 public class Carrinho {
