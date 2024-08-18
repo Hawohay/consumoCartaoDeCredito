@@ -14,6 +14,7 @@ public class MainLoja {
             System.out.println("1 - Cadastrar Produto");
             System.out.println("2 - Adicionar produto no carrinho");
             System.out.println("3 - Exibir produtos do carrinho");
+            System.out.println("4 - finalizar compra");
             System.out.println("9 - Retornar para o menu anterior");
             System.out.println("0 - Sair");
             System.out.println("------------------------------");

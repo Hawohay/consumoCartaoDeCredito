@@ -111,6 +111,42 @@ public class MenuCartao {
         }
     }
 
+    public Cartao selecionarCartao() {
+        // Solicitar o CPF do cliente para exibir os cartões
+        System.out.print("Digite o CPF do cliente para selecionar o cartão: ");
+        String cpf = scanner.nextLine();
+
+        Titular cliente = Titular.encontrarClientePorCpf(cpf);
+
+        if (cliente == null) {
+            System.out.println("Cliente não encontrado.");
+            return null;
+        }
+
+        List<Cartao> cartoesDoCliente = cliente.getCartoes();
+
+        if (cartoesDoCliente == null || cartoesDoCliente.isEmpty()) {
+            System.out.println("Nenhum cartão cadastrado para este cliente.");
+            return null;
+        } else {
+            System.out.println("Selecione o número do cartão:");
+            for (int i = 0; i < cartoesDoCliente.size(); i++) {
+                System.out.println((i + 1) + ". " + cartoesDoCliente.get(i).getNumeroDoCartao());
+            }
+
+            int escolha = scanner.nextInt();
+            scanner.nextLine(); // Consumir nova linha
+
+            if (escolha > 0 && escolha <= cartoesDoCliente.size()) {
+                return cartoesDoCliente.get(escolha - 1);
+            } else {
+                System.out.println("Opção inválida.");
+                return null;
+            }
+        }
+    }
+
+
     private void solicitarDetalhesCartao(Cartao cartao) {
         System.out.print("Bandeira: ");
         String bandeira = scanner.nextLine();

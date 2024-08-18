@@ -1,4 +1,6 @@
 package com.bancodigital;
 
-public class Pagamento {
+public interface Pagamento {
+        void processarPagamento(double valor);
+    boolean validarPagamento(Cartao cartao);
 }
