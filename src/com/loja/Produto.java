@@ -131,7 +131,7 @@ public class Produto {
         boolean unico;
 
         do {
-            String numeroBase = ProdutoUtils.gerarNumeroProdutoBase(); // Assumindo que essa classe existe
+            String numeroBase = ProdutoUtils.gerarNumeroProdutoBase();
             numeroProduto = numeroBase;
             unico = verificarUnicidade(numeroProduto);
         } while (!unico);
@@ -150,7 +150,7 @@ public class Produto {
 
     @Override
     public String toString() {
-        return "CODIGO: " + codigo + "; " +
+        return "CÓDIGO DE BARRAS: " + codigo + "; " +
                 "TIPO: " + tipo + "; " +
                 "NOME: " + nome + "; " +
                 "DESCRIÇÃO: " + descricao + "; " +
