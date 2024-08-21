@@ -29,7 +29,7 @@ public class MenuPrincipal {
             System.out.println("4 - Menu Cartão");
             System.out.println("5 - Menu Movimentações Financeiras");
             System.out.println("6 - Manter Agência");
-            System.out.println("7 - Manter Conta");
+            System.out.println("7 - Loja");
             System.out.println("9 - Sair");
             System.out.println("------------------------------");
             System.out.print("Escolha uma opção: ");
@@ -59,7 +59,7 @@ public class MenuPrincipal {
                     menuMovimentacoesFinanceiras = new MenuMovimentacoesFinanceiras(agencia);
                     break;
                 case 7:
-                    // Lógica para manter contas (se necessário)
+                    new com.loja.MainLoja().exibeMenuLoja(); // Navega para o menu da loja
                     break;
                 case 9:
                     System.out.println("Encerrando o sistema...");

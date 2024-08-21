@@ -116,6 +116,7 @@ public class MenuCartao {
         System.out.print("Digite o CPF do cliente para selecionar o cartão: ");
         String cpf = scanner.nextLine();
 
+        // Buscar o cliente com base no CPF
         Titular cliente = Titular.encontrarClientePorCpf(cpf);
 
         if (cliente == null) {
@@ -123,20 +124,24 @@ public class MenuCartao {
             return null;
         }
 
+        // Obter a lista de cartões do cliente
         List<Cartao> cartoesDoCliente = cliente.getCartoes();
 
         if (cartoesDoCliente == null || cartoesDoCliente.isEmpty()) {
             System.out.println("Nenhum cartão cadastrado para este cliente.");
             return null;
         } else {
+            // Exibir as opções de cartões para o cliente selecionar
             System.out.println("Selecione o número do cartão:");
             for (int i = 0; i < cartoesDoCliente.size(); i++) {
                 System.out.println((i + 1) + ". " + cartoesDoCliente.get(i).getNumeroDoCartao());
             }
 
+            // Obter a escolha do usuário
             int escolha = scanner.nextInt();
             scanner.nextLine(); // Consumir nova linha
 
+            // Verificar se a escolha é válida e retornar o cartão correspondente
             if (escolha > 0 && escolha <= cartoesDoCliente.size()) {
                 return cartoesDoCliente.get(escolha - 1);
             } else {
@@ -145,7 +150,6 @@ public class MenuCartao {
             }
         }
     }
-
 
     private void solicitarDetalhesCartao(Cartao cartao) {
         System.out.print("Bandeira: ");

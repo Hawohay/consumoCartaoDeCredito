@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Carrinho {
-    private static List<Produto> produtos;
+    private List<Produto> produtos;
 
     public Carrinho() {
         this.produtos = new ArrayList<>(); // Inicializa a lista de produtos
@@ -26,7 +26,7 @@ public class Carrinho {
         }
     }
 
-    public static void exibirItensDoCarrinho() {
+    public void exibirItensDoCarrinho() {
         if (produtos.isEmpty()) {
             System.out.println("O carrinho está vazio.");
         } else {
@@ -35,5 +35,13 @@ public class Carrinho {
                 System.out.println(produto); // Usa o método toString() de Produto para exibição
             }
         }
+    }
+
+    public double calcularValorTotal() {
+        double total = 0.0;
+        for (Produto produto : produtos) {
+            total += produto.getValor(); // Supondo que Produto tenha um método getPreco()
+        }
+        return total;
     }
 }
