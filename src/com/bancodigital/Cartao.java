@@ -8,18 +8,20 @@ public class Cartao {
     private String bandeira;
     private String funcaoDoCartao;
     private int cvv;
+    private String senha;
     private LocalDate dataDeValidade;
     private double limiteDeCredito;
     private Titular titular; // Referência ao titular
 
     // Construtor
-    public Cartao(String numeroDoCartao, String bandeira, String funcaoDoCartao, LocalDate dataDeValidade, double limiteDeCredito, int cvv, Titular titular) {
+    public Cartao(String numeroDoCartao, String bandeira, String funcaoDoCartao, LocalDate dataDeValidade, double limiteDeCredito, int cvv, String senha, Titular titular) {
         this.numeroDoCartao = numeroDoCartao;
         this.bandeira = bandeira;
         this.funcaoDoCartao = funcaoDoCartao;
         this.dataDeValidade = dataDeValidade;
         this.limiteDeCredito = limiteDeCredito;
         this.cvv = cvv;
+        this.senha = senha;
         this.titular = titular;
     }
 
@@ -92,5 +94,8 @@ public class Cartao {
 
     public void setLimiteDeCredito(double limiteDeCredito) {
         this.limiteDeCredito = limiteDeCredito;
+    }
+
+    public void setSenha(String senha) {
     }
 }

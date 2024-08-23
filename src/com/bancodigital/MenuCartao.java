@@ -70,7 +70,7 @@ public class MenuCartao {
         System.out.println("Número do CVV: " + cvv);
 
         // Solicitar detalhes adicionais do cartão
-        Cartao novoCartao = new Cartao(numeroDoCartao, "", "", LocalDate.now(), 0, cvv, cliente); // Inicializar com valores padrão
+        Cartao novoCartao = new Cartao(numeroDoCartao, "", "", LocalDate.now(), 0, cvv, "", cliente); // Inicializar com valores padrão
 
         solicitarDetalhesCartao(novoCartao);
 
@@ -165,6 +165,22 @@ public class MenuCartao {
         System.out.print("Limite de Crédito: ");
         double limiteDeCredito = scanner.nextDouble();
         scanner.nextLine(); // Consumir nova linha
+
+        System.out.println("Informe a senha com 6 digitos numéricos");
+        String senha = scanner.nextLine();
+
+        if (senha.length() != 6 || !senha.matches("\\d{6}")) {
+            System.out.println("A senha deve conter exatamente 6 dígitos numéricos.");
+        } else {
+            try {
+                // Cifrar a senha antes de armazená-la
+                String senhaCifrada = HashUtil.hashSenha(senha);
+                cartao.setSenha(senhaCifrada);
+            } catch (Exception e) {
+                System.out.println("Erro ao cifrar a senha: " + e.getMessage());
+                return;
+            }
+        }
 
         cartao.setBandeira(bandeira);
         cartao.setFuncaoDoCartao(funcaoDoCartao);
