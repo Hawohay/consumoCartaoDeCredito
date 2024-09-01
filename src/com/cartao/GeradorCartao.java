@@ -1,4 +1,6 @@
-package com.bancodigital;
+package com.cartao;
+
+import com.bancodigital.LuhnAlgorithm;
 
 import java.util.List;
 import java.util.Random;

@@ -1,4 +1,6 @@
-package com.bancodigital;
+package com.cartao;
+
+import com.bancodigital.Pagamento;
 
 import java.time.LocalDate;
 import java.util.Scanner;

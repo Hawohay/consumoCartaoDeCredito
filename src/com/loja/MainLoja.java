@@ -1,8 +1,8 @@
 package com.loja;
 
-import com.bancodigital.Cartao;
-import com.bancodigital.MenuCartao;
-import com.bancodigital.PagamentoCartaoCredito;
+import com.cartao.Cartao;
+import com.cartao.MenuCartao;
+import com.cartao.PagamentoCartaoCredito;
 import com.bancodigital.Titular;
 
 import java.util.Scanner;
@@ -58,7 +58,7 @@ public class MainLoja {
 
     private static void finalizarCompra(Carrinho carrinho) {
         double valorTotal = carrinho.calcularValorTotal(); // Calcula o valor total dos produtos no carrinho
-        Cartao cartao = selecionarCartao(); // Seleciona o cartão do cliente
+        Cartao cartao = buscarCartaoDoCliente(); // Seleciona o cartão do cliente
 
         if (cartao != null) {
             PagamentoCartaoCredito pagamento = new PagamentoCartaoCredito(cartao);
@@ -68,7 +68,7 @@ public class MainLoja {
         }
     }
 
-    private static Cartao selecionarCartao() {
+    private static Cartao buscarCartaoDoCliente() {
 
         System.out.print("Digite o CPF do cliente para selecionar o cartão: ");
         String cpf = scanner.nextLine(); // Usar a mesma instância de Scanner
