@@ -176,6 +176,7 @@ public class MenuCartao {
                 // Cifrar a senha antes de armazená-la
                 String senhaCifrada = HashUtil.hashSenha(senha);
                 cartao.setSenha(senhaCifrada);
+                System.out.println(senhaCifrada);
             } catch (Exception e) {
                 System.out.println("Erro ao cifrar a senha: " + e.getMessage());
                 return;

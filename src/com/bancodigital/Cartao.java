@@ -98,4 +98,8 @@ public class Cartao {
 
     public void setSenha(String senha) {
     }
+
+    public String getSenha() {
+        return senha;
+    }
 }

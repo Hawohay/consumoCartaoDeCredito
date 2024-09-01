@@ -1,6 +1,7 @@
 package com.bancodigital;
 
 import java.time.LocalDate;
+import java.util.Scanner;
 
 public class PagamentoCartaoCredito implements Pagamento {
     private final MenuCartao menuCartao;
@@ -36,6 +37,23 @@ public class PagamentoCartaoCredito implements Pagamento {
 
     @Override
     public boolean validarPagamento(Cartao cartao) {
-        return cartao.getDataDeValidade().isAfter(LocalDate.now());
+        Scanner scanner = new Scanner(System.in);
+        String validarSenha = cartao.getSenha();
+        System.out.println(validarSenha);
+        String validarCvv = String.valueOf(cartao.getCvv());
+        System.out.println(validarCvv);
+
+        System.out.println("Informe a senha do cartão:");
+        String senha = scanner.nextLine();
+        System.out.println("Informe o CVV:");
+        String cvv = scanner.nextLine();
+
+        // Comparar strings corretamente usando equals()
+        if (validarSenha.equals(senha) && validarCvv.equals(cvv)) {
+            return cartao.getDataDeValidade().isAfter(LocalDate.now());
+        } else {
+            System.out.println("Dados informados inválidos");
+            return false;
+        }
     }
 }
