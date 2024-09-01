@@ -1,5 +1,6 @@
 package com.loja;
 
+import com.bancodigital.Cartao;
 import com.bancodigital.MenuCartao;
 import com.bancodigital.PagamentoCartaoCredito;
 import com.bancodigital.Titular;
@@ -7,12 +8,13 @@ import com.bancodigital.Titular;
 import java.util.Scanner;
 
 public class MainLoja {
+    private static Scanner scanner = new Scanner(System.in); // Instância única de Scanner
+
     public static void main(String[] args) {
         exibeMenuLoja(); // Chama o método para exibir o menu
     }
 
     public static void exibeMenuLoja() {
-        Scanner scanner = new Scanner(System.in);
         Carrinho carrinho = new Carrinho(); // Instancie o carrinho aqui para compartilhar entre os casos
 
         while (true) {
@@ -40,9 +42,7 @@ public class MainLoja {
                     carrinho.exibirItensDoCarrinho(); // Exibe os itens do carrinho
                     break;
                 case 4:
-                    double valorTotal = carrinho.calcularValorTotal(); // Calcula o valor total dos produtos no carrinho
-                    PagamentoCartaoCredito pagamento = new PagamentoCartaoCredito(selecionarMenuCartao());
-                    pagamento.processarPagamento(valorTotal);
+                    finalizarCompra(carrinho); // Finaliza a compra
                     break;
                 case 9:
                     return;
@@ -56,11 +56,22 @@ public class MainLoja {
         }
     }
 
-    private static MenuCartao selecionarMenuCartao() {
-        Scanner scanner = new Scanner(System.in);
+    private static void finalizarCompra(Carrinho carrinho) {
+        double valorTotal = carrinho.calcularValorTotal(); // Calcula o valor total dos produtos no carrinho
+        Cartao cartao = selecionarCartao(); // Seleciona o cartão do cliente
+
+        if (cartao != null) {
+            PagamentoCartaoCredito pagamento = new PagamentoCartaoCredito(cartao);
+            pagamento.processarPagamento(valorTotal);
+        } else {
+            System.out.println("Não foi possível processar o pagamento. Cartão inválido.");
+        }
+    }
+
+    private static Cartao selecionarCartao() {
 
         System.out.print("Digite o CPF do cliente para selecionar o cartão: ");
-        String cpf = scanner.nextLine();
+        String cpf = scanner.nextLine(); // Usar a mesma instância de Scanner
 
         Titular cliente = Titular.encontrarClientePorCpf(cpf);
 
@@ -69,6 +80,7 @@ public class MainLoja {
             return null;
         }
 
-        return new MenuCartao(cliente.getCartoes());
+        MenuCartao menuCartao = new MenuCartao(cliente.getCartoes());
+        return menuCartao.selecionarCartao(cpf); // Chama o método que solicita e retorna o cartão selecionado
     }
 }

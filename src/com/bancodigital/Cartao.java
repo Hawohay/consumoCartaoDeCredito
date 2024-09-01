@@ -1,5 +1,6 @@
 package com.bancodigital;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -34,6 +35,7 @@ public class Cartao {
         System.out.println("Número do Cartão: " + numeroDoCartao);
         System.out.println("Bandeira: " + bandeira);
         System.out.println("Função do Cartão: " + funcaoDoCartao);
+        System.out.println("Senha: " + senha);
         System.out.println("CVV: " + cvv);
 
         if (dataDeValidade != null) {
@@ -97,9 +99,10 @@ public class Cartao {
     }
 
     public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public String getSenha() {
-        return senha;
+        return this.senha;
     }
 }

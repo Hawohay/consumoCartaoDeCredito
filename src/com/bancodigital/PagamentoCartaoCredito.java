@@ -4,22 +4,21 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class PagamentoCartaoCredito implements Pagamento {
-    private final MenuCartao menuCartao;
+    private final Cartao cartao;
 
-    public PagamentoCartaoCredito(MenuCartao menuCartao) {
-        this.menuCartao = menuCartao;
+    // Construtor atualizado para aceitar Cartao
+    public PagamentoCartaoCredito(Cartao cartao) {
+        this.cartao = cartao;
     }
 
     @Override
     public void processarPagamento(double valor) {
-        Cartao cartao = menuCartao.selecionarCartao();
-
         if (cartao == null) {
             System.out.println("Pagamento não realizado. Cartão inválido ou não encontrado.");
             return;
         }
 
-        // Lógica para processar pagamento com o cartão selecionado
+        // Lógica para processar pagamento com o cartão
         if (validarPagamento(cartao)) {
             double limite = cartao.getLimiteDeCredito();
 
@@ -38,18 +37,15 @@ public class PagamentoCartaoCredito implements Pagamento {
     @Override
     public boolean validarPagamento(Cartao cartao) {
         Scanner scanner = new Scanner(System.in);
-        String validarSenha = cartao.getSenha();
-        System.out.println(validarSenha);
-        String validarCvv = String.valueOf(cartao.getCvv());
-        System.out.println(validarCvv);
 
+        // Solicitar senha e CVV do usuário
         System.out.println("Informe a senha do cartão:");
         String senha = scanner.nextLine();
         System.out.println("Informe o CVV:");
         String cvv = scanner.nextLine();
 
-        // Comparar strings corretamente usando equals()
-        if (validarSenha.equals(senha) && validarCvv.equals(cvv)) {
+        // Comparar os valores fornecidos com os armazenados no cartão
+        if (cartao.getSenha().equals(senha) && cartao.getCvv() == Integer.parseInt(cvv)) {
             return cartao.getDataDeValidade().isAfter(LocalDate.now());
         } else {
             System.out.println("Dados informados inválidos");

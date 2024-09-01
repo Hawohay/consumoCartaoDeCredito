@@ -21,7 +21,7 @@ public class MenuCartao {
             System.out.println("2. Exibir Cartões");
             System.out.println("3. Voltar ao Menu Principal");
             System.out.println("9. Sair");
-            System.out.print("E. Escolha uma opção: ");
+            System.out.print("Escolha uma opção: ");
             System.out.println();
 
             int escolha = scanner.nextInt();
@@ -39,7 +39,8 @@ public class MenuCartao {
                     return;
                 case 9:
                     System.out.println("Saindo...");
-                    System.exit(0); // Termina o programa
+                    // Retorne para o menu principal ou encerre o programa de forma adequada
+                    return;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
@@ -111,12 +112,9 @@ public class MenuCartao {
         }
     }
 
-    public Cartao selecionarCartao() {
-        // Solicitar o CPF do cliente para exibir os cartões
-        System.out.print("Digite o CPF do cliente para selecionar o cartão: ");
-        String cpf = scanner.nextLine();
+    public Cartao selecionarCartao(String cpf) {
+        // Buscar o cliente com base no CPF fornecido como parâmetro
 
-        // Buscar o cliente com base no CPF
         Titular cliente = Titular.encontrarClientePorCpf(cpf);
 
         if (cliente == null) {
@@ -166,26 +164,30 @@ public class MenuCartao {
         double limiteDeCredito = scanner.nextDouble();
         scanner.nextLine(); // Consumir nova linha
 
-        System.out.println("Informe a senha com 6 digitos numéricos");
+        System.out.println("Informe a senha com 6 dígitos numéricos:");
         String senha = scanner.nextLine();
 
         if (senha.length() != 6 || !senha.matches("\\d{6}")) {
             System.out.println("A senha deve conter exatamente 6 dígitos numéricos.");
+            return; // Não prossegue se a senha for inválida
         } else {
             try {
                 // Cifrar a senha antes de armazená-la
                 String senhaCifrada = HashUtil.hashSenha(senha);
                 cartao.setSenha(senhaCifrada);
-                System.out.println(senhaCifrada);
             } catch (Exception e) {
                 System.out.println("Erro ao cifrar a senha: " + e.getMessage());
-                return;
+                return; // Não prossegue se ocorrer um erro na cifragem
             }
         }
 
+        // Definir os outros detalhes do cartão
         cartao.setBandeira(bandeira);
         cartao.setFuncaoDoCartao(funcaoDoCartao);
         cartao.setDataDeValidade(LocalDate.now().plusYears(anosDeValidade));
         cartao.setLimiteDeCredito(limiteDeCredito);
+
+        // Exibir mensagem de sucesso, se desejar
+        System.out.println("Detalhes do cartão atualizados com sucesso.");
     }
 }
