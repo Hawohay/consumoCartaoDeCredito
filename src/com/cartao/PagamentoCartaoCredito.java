@@ -8,10 +8,12 @@ import java.util.Scanner;
 public class PagamentoCartaoCredito implements Pagamento {
     private final Cartao cartao;
 
+
     // Construtor atualizado para aceitar Cartao
     public PagamentoCartaoCredito(Cartao cartao) {
         this.cartao = cartao;
     }
+
 
     @Override
     public void processarPagamento(double valor) {
@@ -30,6 +32,7 @@ public class PagamentoCartaoCredito implements Pagamento {
                 limite -= valor;
                 cartao.setLimiteDeCredito(limite);
                 System.out.println("Pagamento de " + valor + " realizado com sucesso com o cartão " + cartao.getNumeroDoCartao());
+                //>>>
             }
         } else {
             System.out.println("Pagamento não realizado. Cartão inválido.");

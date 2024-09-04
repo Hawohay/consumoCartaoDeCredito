@@ -1,4 +1,4 @@
-package com.bancodigital;
+package com.utils;
 
 public class LuhnAlgorithm {
     public static int calcularDigitoVerificador(String numeroBase) {

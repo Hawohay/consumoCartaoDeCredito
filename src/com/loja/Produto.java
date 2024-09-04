@@ -1,5 +1,7 @@
 package com.loja;
 
+import com.utils.CodigoDeBarraUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +16,7 @@ public class Produto {
     private static final List<Produto> listaDeProdutos = new ArrayList<>();
 
     public Produto(String tipo, String nome, String descricao, double valor) {
-        this.codigo = gerarCodigoProdutoValido(); // Gera código automaticamente
+        this.codigo = gerarCodigoDeBarraValidoDoProduto(); // Gera código automaticamente
         this.tipo = tipo;
         this.nome = nome;
         this.descricao = descricao;
@@ -126,12 +128,12 @@ public class Produto {
         return null;
     }
 
-    public static String gerarCodigoProdutoValido() {
+    public static String gerarCodigoDeBarraValidoDoProduto() {
         String numeroProduto;
         boolean unico;
 
         do {
-            String numeroBase = ProdutoUtils.gerarNumeroProdutoBase();
+            String numeroBase = CodigoDeBarraUtils.gerarNumeroCodigoDeBarraBase();
             numeroProduto = numeroBase;
             unico = verificarUnicidade(numeroProduto);
         } while (!unico);

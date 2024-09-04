@@ -1,5 +1,7 @@
 package com.bancodigital;
 
+import com.utils.GeradorDeConta;
+
 import java.util.List;
 
 public abstract class Conta {

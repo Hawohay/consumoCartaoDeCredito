@@ -1,10 +1,10 @@
-package com.loja;
+package com.utils;
 
 import java.util.Random;
 
-public class ProdutoUtils {
+public class CodigoDeBarraUtils {
 
-    public static String gerarNumeroProdutoBase() {
+    public static String gerarNumeroCodigoDeBarraBase() {
         Random random = new Random();
         StringBuilder numeroProduto = new StringBuilder();
 

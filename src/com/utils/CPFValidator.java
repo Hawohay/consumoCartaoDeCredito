@@ -1,4 +1,4 @@
-package com.bancodigital;
+package com.utils;
 
 public class CPFValidator {
     public static boolean validarCPF(String cpf) {

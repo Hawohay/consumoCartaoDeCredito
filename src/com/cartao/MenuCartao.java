@@ -1,6 +1,8 @@
 package com.cartao;
 
 import com.bancodigital.Titular;
+import com.utils.GeradorCartao;
+import com.utils.HashUtil;
 
 import java.time.LocalDate;
 import java.util.List;
