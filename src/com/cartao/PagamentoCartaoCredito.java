@@ -7,11 +7,12 @@ import java.util.Scanner;
 
 public class PagamentoCartaoCredito implements Pagamento {
     private final Cartao cartao;
-
+    private Fatura fatura;
 
     // Construtor atualizado para aceitar Cartao
-    public PagamentoCartaoCredito(Cartao cartao) {
+    public PagamentoCartaoCredito(Cartao cartao, Fatura fatura) {
         this.cartao = cartao;
+        this.fatura = fatura;
     }
 
 
@@ -32,7 +33,7 @@ public class PagamentoCartaoCredito implements Pagamento {
                 limite -= valor;
                 cartao.setLimiteDeCredito(limite);
                 System.out.println("Pagamento de " + valor + " realizado com sucesso com o cartão " + cartao.getNumeroDoCartao());
-                //>>>
+
             }
         } else {
             System.out.println("Pagamento não realizado. Cartão inválido.");
@@ -49,12 +50,16 @@ public class PagamentoCartaoCredito implements Pagamento {
         System.out.println("Informe o CVV:");
         String cvv = scanner.nextLine();
 
-        // Comparar os valores fornecidos com os armazenados no cartão
-        if (cartao.getSenha().equals(senha) && cartao.getCvv() == Integer.parseInt(cvv)) {
-            return cartao.getDataDeValidade().isAfter(LocalDate.now());
-        } else {
-            System.out.println("Dados informados inválidos");
-            return false;
+        try {
+            int cvvInt = Integer.parseInt(cvv);
+            if (cartao.getSenha().equals(senha) && cartao.getCvv() == cvvInt) {
+                return cartao.getDataDeValidade().isAfter(LocalDate.now());
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("CVV inválido. Insira apenas números.");
         }
+
+        System.out.println("Dados informados inválidos");
+        return false;
     }
 }

@@ -2,85 +2,62 @@ package com.cartao;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Fatura {
     private LocalDate dataDeVencimento;
     private LocalDate dataInicialDeLancamento;
     private LocalDate dataFinalDeLancamento;
-    private String codigoDeBarra;
-    private ArrayList lancamento = new ArrayList<>();
+    private String codigoDeBarraDaFatura;
+    private List<LancamentoFatura> lancamentos = new ArrayList<>();
     private Cartao cartao;
 
-
-    public Fatura(LocalDate dataDeVencimento, LocalDate dataInicialDeLancamento, LocalDate dataFinalDeLancamento, String codigoDeBarra, ArrayList lancamento, Cartao cartao) {
+    public Fatura(LocalDate dataDeVencimento, LocalDate dataInicialDeLancamento, LocalDate dataFinalDeLancamento, String codigoDeBarraDaFatura, Cartao cartao) {
         this.dataDeVencimento = dataDeVencimento;
         this.dataInicialDeLancamento = dataInicialDeLancamento;
         this.dataFinalDeLancamento = dataFinalDeLancamento;
-        this.codigoDeBarra = codigoDeBarra;
-        this.lancamento = lancamento;
+        this.codigoDeBarraDaFatura = codigoDeBarraDaFatura;
         this.cartao = cartao;
     }
 
-    public void pesquisarFatura(){
-
-      }
-
-    public void alterarDataDeVencimento(){
-
+    // Adicionar um novo lançamento (compra)
+    public void adicionarCompra(String descricao, double valor) {
+        LancamentoFatura compra = new LancamentoFatura(descricao, valor, LocalDate.now(), false);
+        lancamentos.add(compra);
     }
 
-    public boolean lancarPagamento(Cartao cartao){
-        return true;
+    // Adicionar um pagamento
+    public void lancarPagamento(double valor) {
+        LancamentoFatura pagamento = new LancamentoFatura("Pagamento", valor, LocalDate.now(), true);
+        lancamentos.add(pagamento);
     }
 
-    public LocalDate getDataDeVencimento() {
-        return dataDeVencimento;
+    // Calcular o saldo total da fatura
+    public double calcularSaldo() {
+        double saldo = 0;
+        for (LancamentoFatura lancamento : lancamentos) {
+            if (lancamento.isPagamento()) {
+                saldo -= lancamento.getValor();  // Pagamento reduz o saldo
+            } else {
+                saldo += lancamento.getValor();  // Compra aumenta o saldo
+            }
+        }
+        return saldo;
     }
 
-    public void setDataDeVencimento(LocalDate dataDeVencimento) {
-        this.dataDeVencimento = dataDeVencimento;
+    // Verificar se a fatura está vencida
+    public boolean estaVencida() {
+        return LocalDate.now().isAfter(dataDeVencimento);
     }
 
-    public LocalDate getDataInicialDeLancamento() {
-        return dataInicialDeLancamento;
-    }
-
-    public void setDataInicialDeLancamento(LocalDate dataInicialDeLancamento) {
-        this.dataInicialDeLancamento = dataInicialDeLancamento;
-    }
-
-    public LocalDate getDataFinalDeLancamento() {
-        return dataFinalDeLancamento;
-    }
-
-    public void setDataFinalDeLancamento(LocalDate dataFinalDeLancamento) {
-        this.dataFinalDeLancamento = dataFinalDeLancamento;
-    }
-
-    public String getCodigoDeBarra() {
-        return codigoDeBarra;
-    }
-
-    public void setCodigoDeBarra(String codigoDeBarra) {
-        this.codigoDeBarra = codigoDeBarra;
-    }
-
-    public ArrayList getLancamento() {
-        return lancamento;
-    }
-
-    public void setLancamento(ArrayList lancamento) {
-        this.lancamento = lancamento;
-    }
-
-    public Cartao getCartao() {
-        return cartao;
-    }
-
-    public void setCartao(Cartao cartao) {
-        this.cartao = cartao;
+    // Exibir a fatura e todos os lançamentos
+    public void exibirFatura() {
+        System.out.println("Fatura do Cartão: " + cartao.getNumeroDoCartao());
+        System.out.println("Data de Vencimento: " + dataDeVencimento);
+        System.out.println("Lançamentos:");
+        for (LancamentoFatura lancamento : lancamentos) {
+            System.out.println(lancamento);
+        }
+        System.out.println("Saldo total: " + calcularSaldo());
     }
 }
-
-
-
