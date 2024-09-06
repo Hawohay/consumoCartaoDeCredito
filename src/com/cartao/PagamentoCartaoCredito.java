@@ -10,14 +10,13 @@ public class PagamentoCartaoCredito implements Pagamento {
     private Fatura fatura;
 
     // Construtor atualizado para aceitar Cartao
-    public PagamentoCartaoCredito(Cartao cartao, Fatura fatura) {
+    public PagamentoCartaoCredito(Cartao cartao) {
         this.cartao = cartao;
         this.fatura = fatura;
     }
 
-
     @Override
-    public void processarPagamento(double valor) {
+    public void processarPagamento(double valor, String descricao) {
         if (cartao == null) {
             System.out.println("Pagamento não realizado. Cartão inválido ou não encontrado.");
             return;
@@ -33,7 +32,7 @@ public class PagamentoCartaoCredito implements Pagamento {
                 limite -= valor;
                 cartao.setLimiteDeCredito(limite);
                 System.out.println("Pagamento de " + valor + " realizado com sucesso com o cartão " + cartao.getNumeroDoCartao());
-
+                fatura.adicionarCompra(descricao, valor);
             }
         } else {
             System.out.println("Pagamento não realizado. Cartão inválido.");

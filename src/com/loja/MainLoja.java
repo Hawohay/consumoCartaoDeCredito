@@ -5,6 +5,7 @@ import com.cartao.MenuCartao;
 import com.cartao.PagamentoCartaoCredito;
 import com.bancodigital.Titular;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class MainLoja {
@@ -62,7 +63,14 @@ public class MainLoja {
 
         if (cartao != null) {
             PagamentoCartaoCredito pagamento = new PagamentoCartaoCredito(cartao);
-            pagamento.processarPagamento(valorTotal);
+
+            // Obtenha as descrições dos produtos do carrinho
+            List<String> descricoes = carrinho.obterDescricoesDosProdutos();
+
+            // Processa o pagamento para cada item do carrinho
+            for (String descricao : descricoes) {
+                pagamento.processarPagamento(valorTotal, descricao);
+            }
         } else {
             System.out.println("Não foi possível processar o pagamento. Cartão inválido.");
         }

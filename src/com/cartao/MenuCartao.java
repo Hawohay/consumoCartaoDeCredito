@@ -23,7 +23,9 @@ public class MenuCartao {
             System.out.println("M. Menu de Opções:");
             System.out.println("1. Adicionar Cartão");
             System.out.println("2. Exibir Cartões");
-            System.out.println("3. Voltar ao Menu Principal");
+            System.out.println("3. Exibir Fatura");
+            System.out.println("4. Voltar ao Menu Principal");
+            System.out.println("5. ........................");
             System.out.println("9. Sair");
             System.out.print("Escolha uma opção: ");
             System.out.println();
@@ -39,6 +41,19 @@ public class MenuCartao {
                     exibirCartoes();
                     break;
                 case 3:
+                    // Solicitar o CPF antes de selecionar o cartão
+                    System.out.print("Digite o CPF do cliente: ");
+                    String cpfCliente = scanner.nextLine();
+
+                    // Chamar o método selecionando o cartão com o CPF
+                    Cartao cartaoSelecionado = selecionarCartao(cpfCliente);
+                    if (cartaoSelecionado != null) {
+                        cartaoSelecionado.getFatura().exibirFatura(); // Supondo que a classe Cartao tenha um método getFatura()
+                    } else {
+                        System.out.println("Cartão não encontrado.");
+                    }
+                    break;
+                case 4 :
                     System.out.println("Voltando ao Menu Principal...");
                     return;
                 case 9:

@@ -14,6 +14,7 @@ public class Cartao {
     private LocalDate dataDeValidade;
     private double limiteDeCredito;
     private Titular titular; // Referência ao titular
+    private Fatura fatura;   // Adicionado para armazenar a fatura associada
 
     // Construtor
     public Cartao(String numeroDoCartao, String bandeira, String funcaoDoCartao, LocalDate dataDeValidade, double limiteDeCredito, int cvv, String senha, Titular titular) {
@@ -27,6 +28,7 @@ public class Cartao {
         this.titular = titular;
     }
 
+    // Métodos para exibir informações do cartão
     public void exibirInformacoesDoCartao() {
         // Exibe informações pessoais do titular
         if (titular != null) {
@@ -48,7 +50,6 @@ public class Cartao {
         System.out.println("Limite de Crédito: " + limiteDeCredito);
         System.out.println("Endereço: " + (titular != null ? (titular.getLogradouro() + ", " + titular.getBairro() + ", " + titular.getMunicipio() + " - " + titular.getUnidadeFederativa() + ", CEP: " + titular.getCep()) : "Não disponível"));
     }
-
 
     // Getters e Setters
     public String getNumeroDoCartao() {
@@ -99,11 +100,19 @@ public class Cartao {
         this.limiteDeCredito = limiteDeCredito;
     }
 
+    public String getSenha() {
+        return senha;
+    }
+
     public void setSenha(String senha) {
         this.senha = senha;
     }
 
-    public String getSenha() {
-        return this.senha;
+    public Fatura getFatura() {
+        return fatura;
+    }
+
+    public void setFatura(Fatura fatura) {
+        this.fatura = fatura;
     }
 }

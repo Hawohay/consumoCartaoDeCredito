@@ -26,6 +26,14 @@ public class Carrinho {
         }
     }
 
+    public List<String> obterDescricoesDosProdutos() {
+        List<String> descricoes = new ArrayList<>();
+        for (Produto produto : produtos) {
+            descricoes.add(produto.getNome() + " - " + produto.getDescricao());
+        }
+        return descricoes;
+    }
+
     public void exibirItensDoCarrinho() {
         if (produtos.isEmpty()) {
             System.out.println("O carrinho está vazio.");
