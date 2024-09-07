@@ -7,12 +7,10 @@ import java.util.Scanner;
 
 public class PagamentoCartaoCredito implements Pagamento {
     private final Cartao cartao;
-    private Fatura fatura;
 
     // Construtor atualizado para aceitar Cartao
     public PagamentoCartaoCredito(Cartao cartao) {
         this.cartao = cartao;
-        this.fatura = fatura;
     }
 
     @Override
@@ -23,7 +21,7 @@ public class PagamentoCartaoCredito implements Pagamento {
         }
 
         // Lógica para processar pagamento com o cartão
-        if (validarPagamento(cartao)) {
+        if (validarPagamento(cartao)) { // Passe o Cartao para validarPagamento
             double limite = cartao.getLimiteDeCredito();
 
             if (limite < valor) {
@@ -32,15 +30,21 @@ public class PagamentoCartaoCredito implements Pagamento {
                 limite -= valor;
                 cartao.setLimiteDeCredito(limite);
                 System.out.println("Pagamento de " + valor + " realizado com sucesso com o cartão " + cartao.getNumeroDoCartao());
-                fatura.adicionarCompra(descricao, valor);
+
+                // Verifique se a fatura está associada antes de adicionar a compra
+                if (cartao.getFatura() != null) {
+                    cartao.getFatura().adicionarCompra(descricao, valor);
+                } else {
+                    System.out.println("Erro: O cartão não possui fatura associada.");
+                }
             }
         } else {
-            System.out.println("Pagamento não realizado. Cartão inválido.");
+            System.out.println("Pagamento não realizado. Dados do cartão inválidos.");
         }
     }
 
     @Override
-    public boolean validarPagamento(Cartao cartao) {
+    public boolean validarPagamento(Cartao cartao) { // Assinatura deve corresponder à interface
         Scanner scanner = new Scanner(System.in);
 
         // Solicitar senha e CVV do usuário

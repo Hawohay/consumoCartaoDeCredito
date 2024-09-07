@@ -25,7 +25,6 @@ public class MenuCartao {
             System.out.println("2. Exibir Cartões");
             System.out.println("3. Exibir Fatura");
             System.out.println("4. Voltar ao Menu Principal");
-            System.out.println("5. ........................");
             System.out.println("9. Sair");
             System.out.print("Escolha uma opção: ");
             System.out.println();
@@ -41,24 +40,13 @@ public class MenuCartao {
                     exibirCartoes();
                     break;
                 case 3:
-                    // Solicitar o CPF antes de selecionar o cartão
-                    System.out.print("Digite o CPF do cliente: ");
-                    String cpfCliente = scanner.nextLine();
-
-                    // Chamar o método selecionando o cartão com o CPF
-                    Cartao cartaoSelecionado = selecionarCartao(cpfCliente);
-                    if (cartaoSelecionado != null) {
-                        cartaoSelecionado.getFatura().exibirFatura(); // Supondo que a classe Cartao tenha um método getFatura()
-                    } else {
-                        System.out.println("Cartão não encontrado.");
-                    }
+                    exibirFatura();
                     break;
-                case 4 :
+                case 4:
                     System.out.println("Voltando ao Menu Principal...");
                     return;
                 case 9:
                     System.out.println("Saindo...");
-                    // Retorne para o menu principal ou encerre o programa de forma adequada
                     return;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
@@ -67,7 +55,6 @@ public class MenuCartao {
     }
 
     private void adicionarCartao() {
-        // Solicitar o CPF do cliente para associar o cartão
         System.out.print("Digite o CPF do cliente para associar o cartão: ");
         String cpf = scanner.nextLine();
 
@@ -78,33 +65,33 @@ public class MenuCartao {
             return;
         }
 
-        // Verificar se o cliente já possui cartões
         List<Cartao> cartoesDoCliente = cliente.getCartoes();
 
-        // Criar um novo cartão
         System.out.println("Criando um novo cartão...");
 
-        String numeroDoCartao = GeradorCartao.gerarNumeroCartaoValido(cartoesDoCliente); // Usar a lista do cliente para verificar números
+        String numeroDoCartao = GeradorCartao.gerarNumeroCartaoValido(cartoesDoCliente);
         int cvv = GeradorCartao.gerarCVV(cartoesDoCliente);
         System.out.println("Número do Cartão Gerado: " + numeroDoCartao);
         System.out.println("Número do CVV: " + cvv);
 
-        // Solicitar detalhes adicionais do cartão
-        Cartao novoCartao = new Cartao(numeroDoCartao, "", "", LocalDate.now(), 0, cvv, "", cliente); // Inicializar com valores padrão
+        Cartao novoCartao = new Cartao(numeroDoCartao, "", "", LocalDate.now(), 0, cvv, "", cliente);
+        Fatura novaFatura = new Fatura("fatura-" + numeroDoCartao, LocalDate.now().plusMonths(1),
+                LocalDate.now(), LocalDate.now().plusDays(30),
+                "codigoDeBarra", novoCartao);
+
+        novoCartao.setFatura(novaFatura);
 
         solicitarDetalhesCartao(novoCartao);
 
-        // Verificar se o cartão já existe
         if (cartoesDoCliente.stream().anyMatch(c -> c.getNumeroDoCartao().equals(novoCartao.getNumeroDoCartao()))) {
             System.out.println("Cartão já existe para este cliente.");
         } else {
-            cliente.getCartoes().add(novoCartao); // Adiciona o novo cartão à lista de cartões do titular
+            cliente.getCartoes().add(novoCartao);
             System.out.println("Cartão adicionado com sucesso!");
         }
     }
 
     private void exibirCartoes() {
-        // Solicitar o CPF do cliente para exibir os cartões
         System.out.print("Digite o CPF do cliente para exibir os cartões: ");
         String cpf = scanner.nextLine();
 
@@ -131,9 +118,20 @@ public class MenuCartao {
         }
     }
 
-    public Cartao selecionarCartao(String cpf) {
-        // Buscar o cliente com base no CPF fornecido como parâmetro
+    private void exibirFatura() {
+        System.out.print("Digite o CPF do cliente para exibir a fatura: ");
+        String cpf = scanner.nextLine();
 
+        Cartao cartao = selecionarCartao(cpf);
+
+        if (cartao != null && cartao.getFatura() != null) {
+            cartao.getFatura().exibirFatura();
+        } else {
+            System.out.println("Nenhuma fatura encontrada para este cartão.");
+        }
+    }
+
+    public Cartao selecionarCartao(String cpf) {
         Titular cliente = Titular.encontrarClientePorCpf(cpf);
 
         if (cliente == null) {
@@ -141,24 +139,20 @@ public class MenuCartao {
             return null;
         }
 
-        // Obter a lista de cartões do cliente
         List<Cartao> cartoesDoCliente = cliente.getCartoes();
 
         if (cartoesDoCliente == null || cartoesDoCliente.isEmpty()) {
             System.out.println("Nenhum cartão cadastrado para este cliente.");
             return null;
         } else {
-            // Exibir as opções de cartões para o cliente selecionar
             System.out.println("Selecione o número do cartão:");
             for (int i = 0; i < cartoesDoCliente.size(); i++) {
                 System.out.println((i + 1) + ". " + cartoesDoCliente.get(i).getNumeroDoCartao());
             }
 
-            // Obter a escolha do usuário
             int escolha = scanner.nextInt();
             scanner.nextLine(); // Consumir nova linha
 
-            // Verificar se a escolha é válida e retornar o cartão correspondente
             if (escolha > 0 && escolha <= cartoesDoCliente.size()) {
                 return cartoesDoCliente.get(escolha - 1);
             } else {
@@ -188,25 +182,22 @@ public class MenuCartao {
 
         if (senha.length() != 6 || !senha.matches("\\d{6}")) {
             System.out.println("A senha deve conter exatamente 6 dígitos numéricos.");
-            return; // Não prossegue se a senha for inválida
+            return;
         } else {
             try {
-                // Cifrar a senha antes de armazená-la
                 String senhaCifrada = HashUtil.hashSenha(senha);
                 cartao.setSenha(senhaCifrada);
             } catch (Exception e) {
                 System.out.println("Erro ao cifrar a senha: " + e.getMessage());
-                return; // Não prossegue se ocorrer um erro na cifragem
+                return;
             }
         }
 
-        // Definir os outros detalhes do cartão
         cartao.setBandeira(bandeira);
         cartao.setFuncaoDoCartao(funcaoDoCartao);
         cartao.setDataDeValidade(LocalDate.now().plusYears(anosDeValidade));
         cartao.setLimiteDeCredito(limiteDeCredito);
 
-        // Exibir mensagem de sucesso, se desejar
         System.out.println("Detalhes do cartão atualizados com sucesso.");
     }
 }

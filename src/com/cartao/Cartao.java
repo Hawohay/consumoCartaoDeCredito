@@ -3,21 +3,21 @@ package com.cartao;
 import com.bancodigital.Titular;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class Cartao {
     private String numeroDoCartao;
     private String bandeira;
     private String funcaoDoCartao;
-    private int cvv;
-    private String senha;
     private LocalDate dataDeValidade;
     private double limiteDeCredito;
-    private Titular titular; // Referência ao titular
-    private Fatura fatura;   // Adicionado para armazenar a fatura associada
+    private int cvv;
+    private String senha;
+    private Fatura fatura;
+    private Titular titular;
 
     // Construtor
-    public Cartao(String numeroDoCartao, String bandeira, String funcaoDoCartao, LocalDate dataDeValidade, double limiteDeCredito, int cvv, String senha, Titular titular) {
+    public Cartao(String numeroDoCartao, String bandeira, String funcaoDoCartao, LocalDate dataDeValidade,
+                  double limiteDeCredito, int cvv, String senha, Titular titular) {
         this.numeroDoCartao = numeroDoCartao;
         this.bandeira = bandeira;
         this.funcaoDoCartao = funcaoDoCartao;
@@ -28,30 +28,7 @@ public class Cartao {
         this.titular = titular;
     }
 
-    // Métodos para exibir informações do cartão
-    public void exibirInformacoesDoCartao() {
-        // Exibe informações pessoais do titular
-        if (titular != null) {
-            titular.exibirInformacoesDadosPessoais();
-        }
-
-        System.out.println("Número do Cartão: " + numeroDoCartao);
-        System.out.println("Bandeira: " + bandeira);
-        System.out.println("Função do Cartão: " + funcaoDoCartao);
-        System.out.println("Senha: " + senha);
-        System.out.println("CVV: " + cvv);
-
-        if (dataDeValidade != null) {
-            System.out.println("Data de Validade: " + dataDeValidade.format(DateTimeFormatter.ofPattern("MM/yy")));
-        } else {
-            System.out.println("Data de Validade: Não disponível");
-        }
-
-        System.out.println("Limite de Crédito: " + limiteDeCredito);
-        System.out.println("Endereço: " + (titular != null ? (titular.getLogradouro() + ", " + titular.getBairro() + ", " + titular.getMunicipio() + " - " + titular.getUnidadeFederativa() + ", CEP: " + titular.getCep()) : "Não disponível"));
-    }
-
-    // Getters e Setters
+    // Getters e Setters para os atributos do Cartao
     public String getNumeroDoCartao() {
         return numeroDoCartao;
     }
@@ -76,14 +53,6 @@ public class Cartao {
         this.funcaoDoCartao = funcaoDoCartao;
     }
 
-    public int getCvv() {
-        return cvv;
-    }
-
-    public void setCvv(int cvv) {
-        this.cvv = cvv;
-    }
-
     public LocalDate getDataDeValidade() {
         return dataDeValidade;
     }
@@ -100,6 +69,14 @@ public class Cartao {
         this.limiteDeCredito = limiteDeCredito;
     }
 
+    public int getCvv() {
+        return cvv;
+    }
+
+    public void setCvv(int cvv) {
+        this.cvv = cvv;
+    }
+
     public String getSenha() {
         return senha;
     }
@@ -108,11 +85,25 @@ public class Cartao {
         this.senha = senha;
     }
 
+    // Método para associar uma fatura ao cartão
+    public void setFatura(Fatura fatura) {
+        this.fatura = fatura;
+    }
+
+    // Método para obter a fatura associada ao cartão
     public Fatura getFatura() {
         return fatura;
     }
 
-    public void setFatura(Fatura fatura) {
-        this.fatura = fatura;
+    // Método para exibir as informações do cartão
+    public void exibirInformacoesDoCartao() {
+        System.out.println("Número do Cartão: " + numeroDoCartao);
+        System.out.println("Bandeira: " + bandeira);
+        System.out.println("Função: " + funcaoDoCartao);
+        System.out.println("Validade: " + dataDeValidade);
+        System.out.println("Limite de Crédito: " + limiteDeCredito);
+        System.out.println("CVV: " + cvv);
+        System.out.println("Titular: " + titular.getNome());
+        System.out.println("Senha: " + senha);
     }
 }

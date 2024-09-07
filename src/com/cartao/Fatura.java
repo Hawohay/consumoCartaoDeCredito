@@ -1,10 +1,12 @@
 package com.cartao;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Fatura {
+    private String codigoIdentificador;
     private LocalDate dataDeVencimento;
     private LocalDate dataInicialDeLancamento;
     private LocalDate dataFinalDeLancamento;
@@ -12,7 +14,8 @@ public class Fatura {
     private List<LancamentoFatura> lancamentos = new ArrayList<>();
     private Cartao cartao;
 
-    public Fatura(LocalDate dataDeVencimento, LocalDate dataInicialDeLancamento, LocalDate dataFinalDeLancamento, String codigoDeBarraDaFatura, Cartao cartao) {
+    public Fatura(String codigoIdentificador, LocalDate dataDeVencimento, LocalDate dataInicialDeLancamento, LocalDate dataFinalDeLancamento, String codigoDeBarraDaFatura, Cartao cartao) {
+        this.codigoIdentificador = codigoIdentificador;
         this.dataDeVencimento = dataDeVencimento;
         this.dataInicialDeLancamento = dataInicialDeLancamento;
         this.dataFinalDeLancamento = dataFinalDeLancamento;
@@ -52,12 +55,18 @@ public class Fatura {
 
     // Exibir a fatura e todos os lançamentos
     public void exibirFatura() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         System.out.println("Fatura do Cartão: " + cartao.getNumeroDoCartao());
-        System.out.println("Data de Vencimento: " + dataDeVencimento);
+        System.out.println("Data de Vencimento: " + dataDeVencimento.format(formatter));
         System.out.println("Lançamentos:");
         for (LancamentoFatura lancamento : lancamentos) {
             System.out.println(lancamento);
         }
         System.out.println("Saldo total: " + calcularSaldo());
+    }
+
+    // Getter para obter os lançamentos (caso precise acessar externamente)
+    public List<LancamentoFatura> getLancamentos() {
+        return new ArrayList<>(lancamentos);  // Retorna uma cópia para preservar encapsulamento
     }
 }

@@ -177,7 +177,6 @@ public class Titular extends Identificacao implements Endereco {
         return cartoes;
     }
 
-
     public void setCartao(Cartao cartao) {
         this.cartoes.add(cartao);
     }
