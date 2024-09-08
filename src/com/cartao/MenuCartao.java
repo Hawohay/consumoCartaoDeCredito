@@ -1,6 +1,7 @@
 package com.cartao;
 
 import com.bancodigital.Titular;
+import com.fatura.Fatura;
 import com.utils.GeradorCartao;
 import com.utils.HashUtil;
 

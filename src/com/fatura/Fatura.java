@@ -1,4 +1,6 @@
-package com.cartao;
+package com.fatura;
+
+import com.cartao.Cartao;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

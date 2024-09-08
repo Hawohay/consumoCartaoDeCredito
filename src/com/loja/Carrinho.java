@@ -26,6 +26,11 @@ public class Carrinho {
         }
     }
 
+    // Método para obter a lista de produtos
+    public List<Produto> obterProdutos() {
+        return produtos; // Retorna a lista completa de produtos
+    }
+
     public List<String> obterDescricoesDosProdutos() {
         List<String> descricoes = new ArrayList<>();
         for (Produto produto : produtos) {
@@ -48,8 +53,12 @@ public class Carrinho {
     public double calcularValorTotal() {
         double total = 0.0;
         for (Produto produto : produtos) {
-            total += produto.getValor(); // Supondo que Produto tenha um método getPreco()
+            total += produto.getPreco(); // Supondo que Produto tenha um método getPreco()
         }
         return total;
+    }
+
+    public void limpar() {
+        this.produtos.clear(); // Supondo que 'produtos' seja a lista de produtos no carrinho
     }
 }

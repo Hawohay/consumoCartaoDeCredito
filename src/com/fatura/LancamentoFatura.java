@@ -1,4 +1,4 @@
-package com.cartao;
+package com.fatura;
 
 import java.time.LocalDate;
 

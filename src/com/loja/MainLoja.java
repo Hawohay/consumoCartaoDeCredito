@@ -64,13 +64,21 @@ public class MainLoja {
         if (cartao != null) {
             PagamentoCartaoCredito pagamento = new PagamentoCartaoCredito(cartao);
 
-            // Obtenha as descrições dos produtos do carrinho
-            List<String> descricoes = carrinho.obterDescricoesDosProdutos();
+            // Obtenha as descrições e os valores dos produtos do carrinho
+            List<Produto> produtos = carrinho.obterProdutos();
+            StringBuilder descricaoCompleta = new StringBuilder("Extrato:\n");
 
-            // Processa o pagamento para cada item do carrinho
-            for (String descricao : descricoes) {
-                pagamento.processarPagamento(valorTotal, descricao);
+            for (Produto produto : produtos) {
+                descricaoCompleta.append(produto.getNome())
+                        .append(" - R$")
+                        .append(produto.getPreco())
+                        .append("\n");
             }
+
+            // Processa o pagamento uma vez para o valor total do carrinho, com a descrição dos itens
+            pagamento.processarPagamento(valorTotal, descricaoCompleta.toString());
+            carrinho.limpar();
+            System.out.println("Compra finalizada com sucesso. O carrinho foi esvaziado.");
         } else {
             System.out.println("Não foi possível processar o pagamento. Cartão inválido.");
         }

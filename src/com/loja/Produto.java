@@ -11,16 +11,16 @@ public class Produto {
     private String tipo;
     private String nome;
     private String descricao;
-    private double valor;
+    private double preco;
 
     private static final List<Produto> listaDeProdutos = new ArrayList<>();
 
-    public Produto(String tipo, String nome, String descricao, double valor) {
+    public Produto(String tipo, String nome, String descricao, double preco) {
         this.codigo = gerarCodigoDeBarraValidoDoProduto(); // Gera código automaticamente
         this.tipo = tipo;
         this.nome = nome;
         this.descricao = descricao;
-        this.valor = valor;
+        this.preco = preco;
     }
 
     public Produto() {
@@ -58,12 +58,12 @@ public class Produto {
         this.nome = nome;
     }
 
-    public double getValor() {
-        return valor;
+    public double getPreco() {
+        return preco;
     }
 
-    public void setValor(double valor) {
-        this.valor = valor;
+    public void setPreco(double preco) {
+        this.preco = preco;
     }
 
     public static Produto cadastrarProduto() {
@@ -116,7 +116,7 @@ public class Produto {
         produto.setTipo(tipo);
         produto.setNome(nome);
         produto.setDescricao(descricao);
-        produto.setValor(valor);
+        produto.setPreco(valor);
     }
 
     public static Produto encontrarProdutoPorCodigo(String codigo) {
@@ -156,6 +156,6 @@ public class Produto {
                 "TIPO: " + tipo + "; " +
                 "NOME: " + nome + "; " +
                 "DESCRIÇÃO: " + descricao + "; " +
-                "VALOR: " + valor;
+                "VALOR: " + preco;
     }
 }
